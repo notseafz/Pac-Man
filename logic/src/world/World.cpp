@@ -32,14 +32,17 @@ namespace Logic {
         float tileWidth = 2.0f / cols;
         float tileHeight = tileWidth * (800.0f / 600.0f);
 
+        float totalMapHeight = rows * tileHeight;
+        float startY = totalMapHeight / 2.0f;
+
         for (int r = 0; r < rows; ++r) {
             for (int c = 0; c < cols; ++c) {
                 if (c >= lines[r].size()) break;
-
                 char tile = lines[r][c];
 
                 float x = -1.0f + (c * tileWidth) + (tileWidth / 2.0f);
-                float y = 1.0f - (r * tileHeight) - (tileHeight / 2.0f);
+
+                float y = startY - (r * tileHeight) - (tileHeight / 2.0f);
 
                 if (tile == '#') {
                     entities.push_back(factory->createWall(x, y, tileWidth, tileHeight));
