@@ -7,9 +7,31 @@ jobs:
       - image: ubuntu:22.04
     steps:
       - checkout
-      - run: apt update
-      - run: DEBIAN_FRONTEND=noninteractive TZ=Europe/Brussels apt install -y gcc g++ libsfml-dev cmake git
-      - run: mkdir -p build
-      - run: cd build && cmake ..
-      - run: cd build && make
-      - run: cd build && make install
+
+      - run:
+          name: Update apt repositories
+          command: apt-get update
+
+      - run:
+          name: Install compiler and SFML
+          command: DEBIAN_FRONTEND=noninteractive TZ=Europe/Brussels apt-get install -y gcc g++ libsfml-dev cmake git build-essential
+
+      - run:
+          name: Configure CMake
+          command: |
+            mkdir -p build
+            cd build
+            cmake ..
+
+      - run:
+          name: Compile Project
+          command: |
+            cd build
+            make
+            # REMOVED: && make install (This was causing the error)
+
+workflows:
+  version: 2
+  build_workflow:
+    jobs:
+      - build
