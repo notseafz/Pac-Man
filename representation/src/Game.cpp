@@ -2,7 +2,9 @@
 
 namespace Representation {
     Game::Game()
-        : m_window(sf::VideoMode(800, 600), "Pac-Man Project"), m_world()
+            : m_window(sf::VideoMode(800, 600), "Pac-Man"),
+              m_factory(std::make_shared<ConcreteFactory>(800,600)),
+              m_world(m_factory) // Pass aspect ratio (1.33)
     {
         m_window.setFramerateLimit(60);
     }
@@ -15,10 +17,13 @@ namespace Representation {
                     m_window.close();
             }
 
-            m_world.update(); // Update Logic
-
+            m_world.update();
             m_window.clear();
-            // Draw calls will go here
+
+            for (const auto& wallSprite : m_factory->getWallSprites()) {
+                m_window.draw(*wallSprite);
+            }
+
             m_window.display();
         }
     }
