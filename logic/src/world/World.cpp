@@ -1,5 +1,7 @@
 #include "world/World.h"
 #include "entities/Wall.h"
+#include "entities/PacMan.h"
+#include "core/Stopwatch.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -47,10 +49,22 @@ namespace Logic {
                 if (tile == '#') {
                     entities.push_back(factory->createWall(x, y, tileWidth, tileHeight));
                 }
+                else if (tile == 'P') {
+                    pacman = factory->createPacMan(x,y);
+                    entities.push_back(pacman);
+
+                }
             }
         }
         std::cout << "[Logic] Map Loaded." << std::endl;
     }
 
-    void World::update() { }
+    void World::update() {
+        Stopwatch::getInstance().tick();
+        float dt = Stopwatch::getInstance().getDeltaTime();
+
+        if (pacman) {
+            pacman->update(dt);
+        }
+    }
 }

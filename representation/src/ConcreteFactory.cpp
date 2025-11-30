@@ -20,4 +20,21 @@ namespace Representation {
         return logicWall;
     }
 
+    std::shared_ptr<Logic::PacMan> ConcreteFactory::createPacMan(float x, float y) {
+        auto logicPacMan = std::make_shared<Logic::PacMan>(x, y);
+
+        float radiusLogic = 0.03f;
+        sf::Vector2f pixelSize = camera.getSizeInPixels(radiusLogic * 2.0f, radiusLogic * 2.0f);
+
+        pacmanSprite = std::make_shared<sf::CircleShape>(pixelSize.x / 2.0f);
+        pacmanSprite->setFillColor(sf::Color::Yellow);
+
+        sf::Vector2f pos = camera.toPixels(x, y);
+        pacmanSprite->setPosition(pos);
+
+        pacmanSprite->setOrigin(pixelSize.x / 2.0f, pixelSize.x / 2.0f);
+
+        return logicPacMan;
+    }
+
 }

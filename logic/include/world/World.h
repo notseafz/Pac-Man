@@ -9,8 +9,10 @@ namespace Logic {
     private:
         std::shared_ptr<AbstractFactory> factory;
         std::vector<std::shared_ptr<EntityModel>> entities;
+        std::shared_ptr<PacMan> pacman;
     public:
         World(std::shared_ptr<AbstractFactory> factory);
+        std::shared_ptr<PacMan> getPacMan() { return pacman;}
         void update();
     };
 }

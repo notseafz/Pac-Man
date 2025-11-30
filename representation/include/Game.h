@@ -7,6 +7,7 @@ namespace Representation {
     class Game {
     public:
         Game();
+        void processEvents();
         void run();
     private:
         sf::RenderWindow m_window;

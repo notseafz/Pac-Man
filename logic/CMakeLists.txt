@@ -6,6 +6,9 @@ add_library(pacman_logic ${LOGIC_SOURCES}
         include/entities/Wall.h
         include/AbstractFactory.cpp
         include/AbstractFactory.h
+        include/entities/PacMan.h
+        src/core/Stopwatch.cpp
+        include/core/Stopwatch.h
 )
 
 # Expose include folders so Representation can see World.h, EntityModel.h, etc.
