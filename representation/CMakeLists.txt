@@ -1,4 +1,4 @@
-find_package(SFML 2.6 COMPONENTS graphics window system audio REQUIRED)
+find_package(SFML 2.5 COMPONENTS graphics window system audio REQUIRED)
 
 # Compile all source files in representation/src recursively
 file(GLOB_RECURSE REP_SOURCES "src/*.cpp")
