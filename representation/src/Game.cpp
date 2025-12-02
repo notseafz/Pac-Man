@@ -39,20 +39,8 @@ namespace Representation {
                 m_window.draw(*wallSprite);
             }
 
-            if (auto pacman = m_factory->getPacManSprite()) {
-                m_window.draw(*pacman);
-            }
-
-            if (auto pacmanLogic = m_world.getPacMan()) {
-                if (auto pacmanSprite = m_factory->getPacManSprite()) {
-                    float lx = pacmanLogic->getX();
-                    float ly = pacmanLogic->getY();
-
-                    sf::Vector2f pos = m_factory->camera.toPixels(lx, ly);
-                    pacmanSprite->setPosition(pos);
-
-                    m_window.draw(*pacmanSprite);
-                }
+            if (auto view = m_factory->getPacManView()) {
+                view->draw(m_window);
             }
             m_window.display();
         }

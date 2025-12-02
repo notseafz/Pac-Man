@@ -3,7 +3,7 @@
 
 namespace Representation {
     std::shared_ptr<Logic::Wall> ConcreteFactory::createWall(float x, float y, float width, float height) {
-        auto logicWall = std::make_shared<Logic::Wall>(x, y);
+        auto logicWall = std::make_shared<Logic::Wall>(x, y, width, height);
 
         sf::Vector2f fullSize = camera.getSizeInPixels(width, height);
         sf::Vector2f visualSize = fullSize * 0.9f;
@@ -20,19 +20,11 @@ namespace Representation {
         return logicWall;
     }
 
-    std::shared_ptr<Logic::PacMan> ConcreteFactory::createPacMan(float x, float y) {
-        auto logicPacMan = std::make_shared<Logic::PacMan>(x, y);
+    std::shared_ptr<Logic::PacMan> ConcreteFactory::createPacMan(float x, float y, float width, float height) {
+        auto logicPacMan = std::make_shared<Logic::PacMan>(x, y, width, height);
 
-        float radiusLogic = 0.03f;
-        sf::Vector2f pixelSize = camera.getSizeInPixels(radiusLogic * 2.0f, radiusLogic * 2.0f);
-
-        pacmanSprite = std::make_shared<sf::CircleShape>(pixelSize.x / 2.0f);
-        pacmanSprite->setFillColor(sf::Color::Yellow);
-
-        sf::Vector2f pos = camera.toPixels(x, y);
-        pacmanSprite->setPosition(pos);
-
-        pacmanSprite->setOrigin(pixelSize.x / 2.0f, pixelSize.x / 2.0f);
+        pacmanView = std::make_shared<PacManView>(logicPacMan, camera);
+        logicPacMan->addObserver(pacmanView);
 
         return logicPacMan;
     }

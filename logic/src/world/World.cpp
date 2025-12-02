@@ -47,10 +47,13 @@ namespace Logic {
                 float y = startY - (r * tileHeight) - (tileHeight / 2.0f);
 
                 if (tile == '#') {
-                    entities.push_back(factory->createWall(x, y, tileWidth, tileHeight));
+                    auto wall = factory->createWall(x, y, tileWidth, tileHeight);
+                    entities.push_back(wall);
+                    walls.push_back(wall);
                 }
                 else if (tile == 'P') {
-                    pacman = factory->createPacMan(x,y);
+                    pacman = factory->createPacMan(x,y, tileWidth, tileHeight);
+                    pacman->setMapOriginY(startY);
                     entities.push_back(pacman);
 
                 }
@@ -64,7 +67,7 @@ namespace Logic {
         float dt = Stopwatch::getInstance().getDeltaTime();
 
         if (pacman) {
-            pacman->update(dt);
+            pacman->update(dt, walls);
         }
     }
 }

@@ -4,11 +4,12 @@ file(GLOB_RECURSE LOGIC_SOURCES "src/*.cpp")
 add_library(pacman_logic ${LOGIC_SOURCES}
         include/entities/EntityModel.h
         include/entities/Wall.h
-        include/AbstractFactory.cpp
         include/AbstractFactory.h
         include/entities/PacMan.h
         src/core/Stopwatch.cpp
         include/core/Stopwatch.h
+        include/core/Observer.h
+        include/core/Subject.h
 )
 
 # Expose include folders so Representation can see World.h, EntityModel.h, etc.

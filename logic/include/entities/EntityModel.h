@@ -1,15 +1,19 @@
 
 #ifndef PACMANGAME_ENTITYMODEL_H
 #define PACMANGAME_ENTITYMODEL_H
-
+#include "Subject.h"
 
 namespace Logic {
-    class EntityModel {
+    class EntityModel : public Subject {
     public:
-        EntityModel() = default;
+        virtual ~EntityModel() = default;
 
         virtual float getX() const = 0;
         virtual float getY() const = 0;
+
+        void setPos(float newX, float newY){
+
+        }
     };
 }
 

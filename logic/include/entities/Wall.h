@@ -10,11 +10,16 @@ namespace Logic {
     private:
         float x;
         float y;
+        float width, height;
 
     public:
-        Wall(float px, float py) : x(px), y(py) {}
+        Wall(float px, float py, float w, float h) : x(px), y(py), width(w), height(h) {}
+
         float getX() const override {return x;}
         float getY() const override {return y;}
+
+        float getWidth() const {return width;}
+        float getHeight() const {return height;}
     };
 }
 

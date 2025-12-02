@@ -6,8 +6,9 @@ file(GLOB_RECURSE REP_SOURCES "src/*.cpp")
 add_library(pacman_representation ${REP_SOURCES}
         src/ConcreteFactory.cpp
         include/ConcreteFactory.h
-        src/Camera.cpp
-        include/Camera.h)
+        include/Camera.h
+        include/views/EntityView.h
+        include/views/PacmanView.h)
 
 # Link Logic and SFML
 target_link_libraries(pacman_representation
