@@ -9,7 +9,7 @@
 namespace Logic {
     class Coin : public Collectable {
     public:
-        Coin(float px, float py) : Collectable(px, py, 10) {}
+        Coin(float px, float py) : Collectable(px, py, 2) {}
     };
 }
 

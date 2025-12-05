@@ -9,6 +9,9 @@ namespace Representation {
               m_world(m_factory) // Pass aspect ratio (1.33)
     {
         m_window.setFramerateLimit(60);
+
+        scoreView = std::make_shared<ScoreView>();
+        Logic::Score::getInstance().addObserver(scoreView);
     }
 
     void Game::processEvents() {
@@ -57,6 +60,10 @@ namespace Representation {
 
             if (auto view = m_factory->getPacManView()) {
                 view->draw(m_window);
+            }
+
+            if (scoreView) {
+                scoreView->draw(m_window);
             }
             m_window.display();
         }

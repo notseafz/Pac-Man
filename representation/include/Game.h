@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "world/World.h"
 #include "ConcreteFactory.h"
+#include "ScoreView.h"
 
 namespace Representation {
     class Game {
@@ -14,5 +15,6 @@ namespace Representation {
 
         std::shared_ptr<ConcreteFactory> m_factory;
         Logic::World m_world;
+        std::shared_ptr<ScoreView> scoreView;
     };
 }
