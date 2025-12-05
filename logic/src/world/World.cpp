@@ -3,16 +3,18 @@
 #include "entities/PacMan.h"
 #include "core/Stopwatch.h"
 #include "Coin.h"
+#include "Score.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cmath>
 
 namespace Logic {
     World::World(std::shared_ptr<AbstractFactory> initFactory) : factory(initFactory) {
         std::cout << "[Logic] World initialized." << std::endl;
 
-        std::string filename = "assets/maps/map1.txt";
+        std::string filename = "assets/maps/map2.txt";
         std::ifstream file(filename);
 
         if (!file.is_open()) {
@@ -74,6 +76,25 @@ namespace Logic {
 
         if (pacman) {
             pacman->update(dt, walls);
+        }
+        float pacmanX = pacman->getX();
+        float pacmanY = pacman->getY();
+
+        float eatDistance = pacman->getWidth() / 2.0f;
+
+        for (auto& coin : coins) {
+            if (coin->getIsCollected()){
+                continue;
+            }
+
+            float dx = std::abs(pacmanX - coin->getX());
+            float dy = std::abs(pacmanY - coin->getY());
+
+            if (dx < eatDistance and dy < eatDistance) {
+                coin->collect();
+                Score::getInstance().addScore(coin->getScoreValue());
+            }
+
         }
     }
 }

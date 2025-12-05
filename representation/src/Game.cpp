@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "entities/PacMan.h"
+#include "entities/Coin.h"
 
 namespace Representation {
     Game::Game()
@@ -39,8 +40,19 @@ namespace Representation {
                 m_window.draw(*wallSprite);
             }
 
-            for (const auto& coin : m_factory->getCoinSprites()) {
-                m_window.draw(*coin);
+//            for (const auto& coin : m_factory->getCoinSprites()) {
+//                m_window.draw(*coin);
+//            }
+
+            const auto& logicCoins = m_world.getCoins();
+            const auto& spriteCoins = m_factory->getCoinSprites();
+
+            for (size_t i = 0; i < logicCoins.size(); i++) {
+                if (i < spriteCoins.size()) {
+                    if (!logicCoins[i]->getIsCollected()) {
+                        m_window.draw(*spriteCoins[i]);
+                    }
+                }
             }
 
             if (auto view = m_factory->getPacManView()) {
