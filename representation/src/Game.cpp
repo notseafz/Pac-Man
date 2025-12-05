@@ -39,6 +39,10 @@ namespace Representation {
                 m_window.draw(*wallSprite);
             }
 
+            for (const auto& coin : m_factory->getCoinSprites()) {
+                m_window.draw(*coin);
+            }
+
             if (auto view = m_factory->getPacManView()) {
                 view->draw(m_window);
             }

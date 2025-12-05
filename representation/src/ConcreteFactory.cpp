@@ -1,5 +1,6 @@
 #include "ConcreteFactory.h"
 #include "Wall.h"
+#include "Coin.h"
 
 namespace Representation {
     std::shared_ptr<Logic::Wall> ConcreteFactory::createWall(float x, float y, float width, float height) {
@@ -27,6 +28,24 @@ namespace Representation {
         logicPacMan->addObserver(pacmanView);
 
         return logicPacMan;
+    }
+
+    std::shared_ptr<Logic::Coin> ConcreteFactory::createCoin(float x, float y) {
+        auto logicCoin = std::make_shared<Logic::Coin>(x, y);
+
+        float logicRadius = 0.01f;
+        sf::Vector2f pixelSize = camera.getSizeInPixels(logicRadius * 2.0f, logicRadius * 2.0f);
+
+        auto shape = std::make_shared<sf::CircleShape>(pixelSize.x / 2.0f);
+        shape->setFillColor(sf::Color::White);
+
+        sf::Vector2f pos = camera.toPixels(x, y);
+        shape->setPosition(pos);
+        shape->setOrigin(pixelSize.x / 2.0f, pixelSize.x / 2.0f);
+
+        coinSprites.push_back(shape);
+
+        return logicCoin;
     }
 
 }

@@ -2,6 +2,7 @@
 #include "entities/Wall.h"
 #include "entities/PacMan.h"
 #include "core/Stopwatch.h"
+#include "Coin.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -56,6 +57,11 @@ namespace Logic {
                     pacman->setMapOriginY(startY);
                     entities.push_back(pacman);
 
+                }
+                else if (tile == '.') {
+                    auto coin = factory->createCoin(x, y);
+                    entities.push_back(coin);
+                    coins.push_back(coin); // Save to specific list
                 }
             }
         }

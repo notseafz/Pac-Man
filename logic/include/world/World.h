@@ -12,9 +12,11 @@ namespace Logic {
         std::vector<std::shared_ptr<EntityModel>> entities;
         std::shared_ptr<PacMan> pacman;
         std::vector<std::shared_ptr<Wall>> walls;
+        std::vector<std::shared_ptr<Coin>> coins;
     public:
         World(std::shared_ptr<AbstractFactory> factory);
         std::shared_ptr<PacMan> getPacMan() { return pacman;}
+        const std::vector<std::shared_ptr<Coin>>& getCoins() const {return coins;}
         void update();
     };
 }
