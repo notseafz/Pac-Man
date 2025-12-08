@@ -14,7 +14,7 @@ namespace Logic {
     World::World(std::shared_ptr<AbstractFactory> initFactory) : factory(initFactory) {
         std::cout << "[Logic] World initialized." << std::endl;
 
-        std::string filename = "assets/maps/map2.txt";
+        std::string filename = "assets/maps/map1.txt";
         std::ifstream file(filename);
 
         if (!file.is_open()) {

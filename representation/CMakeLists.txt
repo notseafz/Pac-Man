@@ -8,7 +8,16 @@ add_library(pacman_representation ${REP_SOURCES}
         include/ConcreteFactory.h
         include/Camera.h
         include/views/EntityView.h
-        include/views/PacmanView.h)
+        include/views/PacmanView.h
+        include/states/State.h
+        include/states/StateManager.h
+        src/states/StateManager.cpp
+        include/states/MenuState.h
+        src/states/MenuState.cpp
+        include/states/VictoryState.h
+        src/states/VictoryState.cpp
+        include/states/LevelState.h
+        src/states/LevelState.cpp)
 
 # Link Logic and SFML
 target_link_libraries(pacman_representation
