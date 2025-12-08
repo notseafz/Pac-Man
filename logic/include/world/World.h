@@ -13,6 +13,7 @@ namespace Logic {
         std::shared_ptr<PacMan> pacman;
         std::vector<std::shared_ptr<Wall>> walls;
         std::vector<std::shared_ptr<Coin>> coins;
+        std::vector<std::shared_ptr<Ghost>> ghosts;
     public:
         World(std::shared_ptr<AbstractFactory> factory);
         std::shared_ptr<PacMan> getPacMan() { return pacman;}

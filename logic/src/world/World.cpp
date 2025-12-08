@@ -4,6 +4,7 @@
 #include "core/Stopwatch.h"
 #include "Coin.h"
 #include "Score.h"
+#include "Ghost.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -14,7 +15,7 @@ namespace Logic {
     World::World(std::shared_ptr<AbstractFactory> initFactory) : factory(initFactory) {
         std::cout << "[Logic] World initialized." << std::endl;
 
-        std::string filename = "assets/maps/map1.txt";
+        std::string filename = "assets/maps/map3.txt";
         std::ifstream file(filename);
 
         if (!file.is_open()) {
@@ -63,7 +64,14 @@ namespace Logic {
                 else if (tile == '.') {
                     auto coin = factory->createCoin(x, y);
                     entities.push_back(coin);
-                    coins.push_back(coin); // Save to specific list
+                    coins.push_back(coin);
+                }
+                else if (tile == 'G') {
+                    auto ghost = factory->createGhost(x, y, tileWidth, tileHeight);
+                    ghost->setMapOriginY(startY);
+                    entities.push_back(ghost);
+                    ghosts.push_back(ghost);
+
                 }
             }
         }
@@ -95,6 +103,10 @@ namespace Logic {
                 Score::getInstance().addScore(coin->getScoreValue());
             }
 
+        }
+
+        for (auto& ghost : ghosts) {
+            ghost->update(dt, walls);
         }
     }
 }

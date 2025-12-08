@@ -8,6 +8,7 @@ namespace Logic {
     class Wall;
     class PacMan;
     class Coin;
+    class Ghost;
 
     class AbstractFactory {
     public:
@@ -15,6 +16,7 @@ namespace Logic {
         virtual std::shared_ptr<Wall> createWall(float x, float y, float width, float height) = 0;
         virtual std::shared_ptr<PacMan> createPacMan(float x, float y, float width, float height) = 0;
         virtual std::shared_ptr<Coin> createCoin(float x, float y) = 0;
+        virtual std::shared_ptr<Ghost>createGhost(float x, float y, float width, float height) = 0;
     };
 }
 

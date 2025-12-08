@@ -48,4 +48,17 @@ namespace Representation {
         return logicCoin;
     }
 
+    std::shared_ptr<Logic::Ghost> ConcreteFactory::createGhost(float x, float y, float width, float height) {
+        auto logicGhost = std::make_shared<Logic::Ghost>(x, y, width, height);
+        auto view = std::make_shared<GhostView>(logicGhost, camera);
+        logicGhost->addObserver(view);
+        ghostviews.push_back(view);
+
+        return logicGhost;
+    }
+
+    const std::vector<std::shared_ptr<GhostView>> &ConcreteFactory::getGhostviews() const {
+        return ghostviews;
+    }
+
 }

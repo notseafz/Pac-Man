@@ -17,7 +17,8 @@ add_library(pacman_representation ${REP_SOURCES}
         include/states/VictoryState.h
         src/states/VictoryState.cpp
         include/states/LevelState.h
-        src/states/LevelState.cpp)
+        src/states/LevelState.cpp
+        include/views/GhostView.h)
 
 # Link Logic and SFML
 target_link_libraries(pacman_representation

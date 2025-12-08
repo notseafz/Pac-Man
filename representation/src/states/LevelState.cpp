@@ -65,6 +65,10 @@ namespace Representation {
             view->draw(window);
         }
 
+        for (const auto& ghostview : factory->getGhostviews()) {
+            ghostview->draw(window);
+        }
+
         if (scoreView) {
             scoreView->draw(window);
         }
