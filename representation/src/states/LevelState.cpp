@@ -2,6 +2,7 @@
 #include "states/VictoryState.h"
 #include "entities/Coin.h"
 #include "core/Score.h"
+#include "GameOver.h"
 
 namespace Representation {
     LevelState::LevelState(StateManager& sm, sf::RenderWindow& win)
@@ -43,6 +44,10 @@ namespace Representation {
 
         if (levelCleared) {
             stateManager.addState(std::make_unique<VictoryState>(stateManager, window), true);
+        }
+
+        if (world->getPacMan()->gameover()) {
+            stateManager.addState(std::make_unique<GameOver>(stateManager, window), true);
         }
     }
 
