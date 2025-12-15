@@ -17,6 +17,7 @@ add_library(pacman_logic ${LOGIC_SOURCES}
         ../representation/include/views/ScoreView.h
         include/entities/Ghost.h
         include/entities/DynamicEntity.h
+        include/entities/Fruit.h
 )
 
 # Expose include folders so Representation can see World.h, EntityModel.h, etc.

@@ -8,9 +8,13 @@ namespace Logic {
     private:
         int nextDirX = 0;
         int nextDirY = 0;
+        float startX, startY;
+        int lives = 3;
+        bool isDead = false;
 
     public:
-        PacMan(float px, float py, float tw, float th) : DynamicEntity(px, py, tw, th) {}
+        PacMan(float px, float py, float tw, float th, float startX, float startY) : DynamicEntity(px, py, tw, th),
+                                                                                     startX(startX), startY(startY) {}
 
         void setDirection(int dx, int dy) {
             if ((dx == -dirX && dy == -dirY) && (dx != 0 || dy != 0)) {
@@ -40,6 +44,33 @@ namespace Logic {
                 }
             }
             tryMove(deltaTime, walls);
+        }
+
+        void die() {
+            lives--;
+
+            if (lives == 0) {
+                isDead = true;
+            }
+
+        };
+
+        void resetPostition() {
+            x = startX;
+            y = startY;
+            dirY= 0;
+            dirX = 0;
+            nextDirY = 0;
+            nextDirX = 0;
+            notify();
+        }
+
+        int getLives() const {
+            return lives;
+        }
+
+        bool gameover() const {
+            return isDead;
         }
     };
 }

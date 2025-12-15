@@ -41,6 +41,14 @@ namespace Logic {
         float getY() const override { return y; }
         float getWidth() const { return width; }
 
+        int getDirX() const {
+            return dirX;
+        }
+
+        int getDirY() const {
+            return dirY;
+        }
+
         void setMapOriginY(float startY) { mapOriginY = startY; }
 
         bool tryMove(float dt, const std::vector<std::shared_ptr<Wall>>& walls) {

@@ -72,5 +72,15 @@ namespace Representation {
         if (scoreView) {
             scoreView->draw(window);
         }
+
+        const auto& logicFruits = world->getFruits();
+        const auto& spriteFruits = factory->getFruitSprites();
+
+        for (size_t i = 0; i < logicFruits.size(); ++i) {
+            if (i < spriteFruits.size() && !logicFruits[i]->getIsCollected()) {
+                window.draw(*spriteFruits[i]);
+            }
+        }
     }
+
 }

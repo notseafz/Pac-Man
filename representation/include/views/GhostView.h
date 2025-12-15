@@ -15,11 +15,11 @@ namespace Representation {
         Camera& camera;
 
     public:
-        GhostView(std::shared_ptr<Logic::Ghost> m, Camera& cam) : model(m), camera(cam) {
+        GhostView(std::shared_ptr<Logic::Ghost> m, Camera& cam, sf::Color color) : model(m), camera(cam)  {
             float radius = 0.02f;
             sf::Vector2f pixelSize = camera.getSizeInPixels(radius * 2, radius * 2);
             sprite.setRadius(pixelSize.x / 2.0f);
-            sprite.setFillColor(sf::Color::Red);
+            sprite.setFillColor(color);
             sprite.setOrigin(pixelSize.x / 2.0f, pixelSize.x / 2.0f);
             update();
         }

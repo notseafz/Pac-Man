@@ -10,6 +10,7 @@
 #include "PacmanView.h"
 #include "Ghost.h"
 #include "GhostView.h"
+#include "entities/Fruit.h"
 
 namespace Representation {
     class ConcreteFactory : public Logic::AbstractFactory {
@@ -19,17 +20,21 @@ namespace Representation {
         std::shared_ptr<PacManView> pacmanView;
         std::vector<std::shared_ptr<sf::CircleShape>> coinSprites;
         std::vector<std::shared_ptr<GhostView>> ghostviews;
+        std::vector<std::shared_ptr<sf::CircleShape>> fruitSprites;
 
     public:
         std::shared_ptr<Logic::Wall> createWall(float x, float y, float width, float height) override;
         std::shared_ptr<Logic::PacMan> createPacMan(float x, float y, float widht, float height) override;
         std::shared_ptr<Logic::Coin> createCoin(float x, float y) override;
-        std::shared_ptr<Logic::Ghost> createGhost(float x, float y, float width, float height) override;
+        std::shared_ptr<Logic::Ghost> createGhost(float x, float y, float width, float height, int index) override;
 
         std::shared_ptr<sf::CircleShape> getPacManSprite() { return pacmanSprite; }
         std::shared_ptr<PacManView> getPacManView() {return pacmanView;}
         const std::vector<std::shared_ptr<sf::CircleShape>>& getCoinSprites() const {return coinSprites;}
         const std::vector<std::shared_ptr<GhostView>>& getGhostViews() const { return ghostviews; }
+
+        std::shared_ptr<Logic::Fruit> createFruit(float x, float y) override;
+        const std::vector<std::shared_ptr<sf::CircleShape>>& getFruitSprites() const { return fruitSprites; }
 
         ConcreteFactory(int width, int height) : camera(width, height) {}
 

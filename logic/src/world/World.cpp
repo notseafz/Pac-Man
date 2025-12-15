@@ -1,10 +1,10 @@
 #include "world/World.h"
-#include "entities/Wall.h"
 #include "entities/PacMan.h"
 #include "core/Stopwatch.h"
 #include "Coin.h"
 #include "Score.h"
 #include "Ghost.h"
+#include "Fruit.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -15,7 +15,7 @@ namespace Logic {
     World::World(std::shared_ptr<AbstractFactory> initFactory) : factory(initFactory) {
         std::cout << "[Logic] World initialized." << std::endl;
 
-        std::string filename = "assets/maps/map3.txt";
+        std::string filename = "assets/maps/map4.txt";
         std::ifstream file(filename);
 
         if (!file.is_open()) {
@@ -40,6 +40,8 @@ namespace Logic {
 
         float totalMapHeight = rows * tileHeight;
         float startY = totalMapHeight / 2.0f;
+
+        int ghostcount = 0;
 
         for (int r = 0; r < rows; ++r) {
             for (int c = 0; c < cols; ++c) {
@@ -67,11 +69,17 @@ namespace Logic {
                     coins.push_back(coin);
                 }
                 else if (tile == 'G') {
-                    auto ghost = factory->createGhost(x, y, tileWidth, tileHeight);
+                    auto ghost = factory->createGhost(x, y, tileWidth, tileHeight, ghostcount++);
                     ghost->setMapOriginY(startY);
                     entities.push_back(ghost);
                     ghosts.push_back(ghost);
 
+                }
+
+                else if (tile == 'F') {
+                    auto fruit = factory->createFruit(x,y);
+                    entities.push_back(fruit);
+                    fruits.push_back(fruit);
                 }
             }
         }
@@ -82,8 +90,40 @@ namespace Logic {
         Stopwatch::getInstance().tick();
         float dt = Stopwatch::getInstance().getDeltaTime();
 
+        float targetX = 0;
+        float targetY = 0;
+        int pacDirX = 0;
+        int pacDirY = 0;
+
         if (pacman) {
             pacman->update(dt, walls);
+
+            targetX = pacman->getX();
+            targetY = pacman->getY();
+            pacDirX = pacman->getDirX();
+            pacDirY = pacman->getDirY();
+        }
+
+        for (auto& ghost : ghosts) {
+            ghost->update(dt, walls, targetX, targetY, pacDirX, pacDirY);
+
+            if (pacman) {
+                float dx = pacman->getX() - ghost->getX();
+                float dy = pacman->getY() - ghost->getY();
+                float distance = std::sqrt(dx*dx + dy*dy);
+
+                if (distance < pacman->getWidth() * 0.8f) {
+                    pacman->die();
+
+                    if (!pacman->gameover()) {
+                        pacman->resetPostition();
+                        for (auto& ghost : ghosts) {
+                            ghost->resetPosition();
+                        }
+                    }
+                }
+            }
+
         }
         float pacmanX = pacman->getX();
         float pacmanY = pacman->getY();
@@ -105,8 +145,18 @@ namespace Logic {
 
         }
 
-        for (auto& ghost : ghosts) {
-            ghost->update(dt, walls);
+        for (auto& fruit : fruits) {
+            if (fruit->getIsCollected()) continue;
+
+            float dx = std::abs(pacman->getX() - fruit->getX());
+            float dy = std::abs(pacman->getY() - fruit->getY());
+
+            if (dx < eatDistance && dy < eatDistance) {
+                fruit->collect();
+                Score::getInstance().addScore(fruit->getScoreValue());
+            }
         }
+
+
     }
 }
