@@ -17,4 +17,9 @@ namespace Logic {
     int Score::getScore() const {
         return current;
     }
+
+    void Score::resetScore() {
+        current = 0;
+        notify();
+    }
 }

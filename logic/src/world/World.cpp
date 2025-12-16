@@ -113,13 +113,21 @@ namespace Logic {
                 float distance = std::sqrt(dx*dx + dy*dy);
 
                 if (distance < pacman->getWidth() * 0.8f) {
-                    pacman->die();
+                    if (ghost->isFrightened()) {
+                        ghost->resetPosition();
+                        Score::getInstance().addScore(200);
+                    }
+                    else {
+                        pacman->die();
+                        if (!pacman->gameover()) {
+                            pacman->resetPostition();
+                            for (auto& ghost : ghosts) {
+                                ghost->resetPosition();
+                            }
 
-                    if (!pacman->gameover()) {
-                        pacman->resetPostition();
-                        for (auto& ghost : ghosts) {
-                            ghost->resetPosition();
-                        }
+                    }
+
+
                     }
                 }
             }
@@ -154,6 +162,10 @@ namespace Logic {
             if (dx < eatDistance && dy < eatDistance) {
                 fruit->collect();
                 Score::getInstance().addScore(fruit->getScoreValue());
+
+                for (auto& g : ghosts) {
+                    g->setFrightened(true);
+                }
             }
         }
 

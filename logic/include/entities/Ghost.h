@@ -8,10 +8,14 @@
 namespace Logic {
 
     enum class GhostType {Red, Pink, Blue, Purple};
+    enum class GhostState {Chase, Frightened};
+
     class Ghost : public DynamicEntity {
     private:
         float startX, startY;
         GhostType type;
+        GhostState state = GhostState::Chase;
+        float frightenedTimer = 0.0f;
 
         float getDistance(float x1, float y1, float x2, float y2) {
             return std::abs(x1 - x2) + std::abs(y1-y2);
@@ -28,18 +32,53 @@ namespace Logic {
             x = startX;
             y = startY;
             dirX = 1; dirY = 0;
+            state = GhostState::Chase;
             notify();
         }
 
+        void setFrightened(bool frightened) {
+            if (frightened) {
+                state = GhostState::Frightened;
+                frightenedTimer = 10.0f;
+                speed = 0.2f;
+
+                dirX = -dirX;
+                dirY = -dirY;
+            }
+            else {
+                state = GhostState::Chase;
+                speed = 0.3f;
+            }
+            notify();
+        }
+
+        bool isFrightened() const {
+            return state == GhostState::Frightened;
+        }
+
         void update(float dt, const std::vector<std::shared_ptr<Wall>>& walls, float targetX, float targetY, int pacDirX, int pacDirY) {
+
+            if (state == GhostState::Frightened) {
+                frightenedTimer -= dt;
+                if (frightenedTimer <= 0) {
+                    setFrightened(false);
+                }
+            }
             bool moved = tryMove(dt, walls);
 
             float destX = targetX;
             float destY = targetY;
 
-            if (type == GhostType::Pink) {
-                destX += pacDirX * tileW * 4.0f;
-                destY += pacDirY * tileH * 4.0f;
+            if (state == GhostState::Frightened) {
+                // pick a corner based on ghost type to spread them out
+                if (type == GhostType::Red)       { destX = -1.0f; destY = 1.0f; }  // Top Left
+                else if (type == GhostType::Pink) { destX = 1.0f;  destY = 1.0f; }  // Top Right
+                else if (type == GhostType::Blue) { destX = -1.0f; destY = -1.0f; } // Bot Left
+                else                              { destX = 1.0f;  destY = -1.0f; } // Bot Right
+            }
+            else if (type == GhostType::Pink) {
+                destX += pacDirX * (tileW * 4.0f);
+                destY += pacDirY * (tileH * 4.0f);
             }
 
             float tolerance = speed * dt * 1.5f;
@@ -85,6 +124,7 @@ namespace Logic {
                     dirY = -dirY;
                 }
             }
+            if (moved) notify();
         }
     };
 }

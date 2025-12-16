@@ -13,6 +13,7 @@ namespace Representation {
         world = std::make_unique<Logic::World>(factory);
         scoreView = std::make_shared<ScoreView>();
         Logic::Score::getInstance().addObserver(scoreView);
+        Logic::Score::getInstance().resetScore();
     }
 
     void LevelState::handleInput() {

@@ -17,6 +17,7 @@ namespace Logic {
 
         void addScore(int points);
         int getScore() const;
+        void resetScore();
     };
 }
 #endif //PACMANGAME_SCORE_H
