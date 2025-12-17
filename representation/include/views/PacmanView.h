@@ -6,28 +6,37 @@
 #include "entities/PacMan.h"
 #include "Camera.h"
 #include <memory>
+#include <utility>
 
 namespace Representation {
     class PacManView : public EntityView {
     private:
         std::shared_ptr<Logic::PacMan> model;
-        sf::CircleShape sprite;
+        sf::Sprite sprite;
         Camera& camera;
     public:
-        PacManView(std::shared_ptr<Logic::PacMan> pacManModel, Camera& cam)
-                : model(pacManModel), camera(cam)
+        PacManView(std::shared_ptr<Logic::PacMan> m, Camera& cam, sf::Texture& tex, sf::IntRect rect)
+                : model(std::move(m)), camera(cam)
         {
-            float radiusLogic = 0.03f;
-            sf::Vector2f pixelSize = camera.getSizeInPixels(radiusLogic * 2.0f, radiusLogic * 2.0f);
+            sprite.setTexture(tex);
+            sprite.setTextureRect(rect);
 
-            sprite.setRadius(pixelSize.x / 2.0f);
-            sprite.setFillColor(sf::Color::Yellow);
-            sprite.setOrigin(pixelSize.x / 2.0f, pixelSize.x / 2.0f);
-            update();
+            sf::Vector2f targetSize = camera.getSizeInPixels(model->getWidth(), model->getHeight());
+            sprite.setScale(targetSize.x / rect.width, targetSize.y / rect.height);
+
+            sprite.setOrigin(rect.width / 2.0f, rect.height / 2.0f);
         }
+
         void update() override {
             sf::Vector2f pos = camera.toPixels(model->getX(), model->getY());
             sprite.setPosition(pos);
+
+            int dx = model->getDirX();
+            int dy = model->getDirY();
+            if (dx == 1) sprite.setRotation(0);
+            if (dx == -1) sprite.setRotation(180);
+            if (dy == 1) sprite.setRotation(-90);
+            if (dy == -1) sprite.setRotation(90);
         }
         void draw(sf::RenderWindow& window) override {
             window.draw(sprite);

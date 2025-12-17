@@ -22,7 +22,14 @@ namespace Representation {
         std::vector<std::shared_ptr<GhostView>> ghostviews;
         std::vector<std::shared_ptr<sf::CircleShape>> fruitSprites;
 
+        sf::Texture texture;
+        std::map<std::string, sf::IntRect> spriteRects;
+        void defineSprites();
+
     public:
+        ConcreteFactory(int width, int height);
+        sf::IntRect getSpriteRect(const std::string& name) const;
+
         std::shared_ptr<Logic::Wall> createWall(float x, float y, float width, float height) override;
         std::shared_ptr<Logic::PacMan> createPacMan(float x, float y, float widht, float height) override;
         std::shared_ptr<Logic::Coin> createCoin(float x, float y) override;
@@ -35,13 +42,9 @@ namespace Representation {
 
         std::shared_ptr<Logic::Fruit> createFruit(float x, float y) override;
         const std::vector<std::shared_ptr<sf::CircleShape>>& getFruitSprites() const { return fruitSprites; }
-
-        ConcreteFactory(int width, int height) : camera(width, height) {}
-
         const std::vector<std::shared_ptr<sf::RectangleShape>>& getWallSprites() const {
             return walls;
         }
-
         const std::vector<std::shared_ptr<GhostView>> &getGhostviews() const;
 
         Camera camera;

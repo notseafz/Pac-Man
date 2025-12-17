@@ -4,6 +4,48 @@
 #include "PacMan.h"
 
 namespace Representation {
+    ConcreteFactory::ConcreteFactory(int width, int height) : camera(width, height) {
+        texture.loadFromFile("assets/sprites/sprite.png");
+
+        defineSprites();
+    }
+
+    void ConcreteFactory::defineSprites() {
+        spriteRects["pacman_closed"] = sf::IntRect(853, 5, 33, 33);
+
+        spriteRects["pacman_right_open"] = sf::IntRect(853, 105, 33, 33);
+        spriteRects["pacman_left_open"]  = sf::IntRect(853, 405, 33, 33);
+        spriteRects["pacman_up_open"]    = sf::IntRect(853, 554, 33, 33);
+        spriteRects["pacman_down_open"]  = sf::IntRect(852, 255, 33, 33);
+
+        // Red (Index 0)
+        spriteRects["ghost_0_right"] = sf::IntRect(1, 4, 35, 35);
+        spriteRects["ghost_0_left"]  = sf::IntRect(1, 204, 35, 35);
+
+        // Pink (Index 1)
+        spriteRects["ghost_1_right"] = sf::IntRect(51, 4, 35, 35);
+        spriteRects["ghost_1_left"]  = sf::IntRect(51, 204, 35, 35);
+
+        // Blue (Cyan) (Index 2)
+        spriteRects["ghost_2_right"] = sf::IntRect(101, 4, 35, 35);
+        spriteRects["ghost_2_left"]  = sf::IntRect(101, 204, 35, 35);
+
+        // Orange (Index 3)
+        spriteRects["ghost_3_right"] = sf::IntRect(151, 4, 35, 35);
+        spriteRects["ghost_3_left"]  = sf::IntRect(151, 204, 35, 35);
+
+        // Fear Mode
+        spriteRects["ghost_scared"] = sf::IntRect(1, 554, 35, 35);
+
+        spriteRects["coin"] = sf::IntRect(411, 313, 16, 16);
+        spriteRects["fruit"] = sf::IntRect(601, 200, 33, 42);
+
+    }
+
+    sf::IntRect ConcreteFactory::getSpriteRect(const std::string &name) const {
+            return spriteRects.at(name);
+    }
+
     std::shared_ptr<Logic::Wall> ConcreteFactory::createWall(float x, float y, float width, float height) {
         auto logicWall = std::make_shared<Logic::Wall>(x, y, width, height);
 
@@ -25,7 +67,8 @@ namespace Representation {
     std::shared_ptr<Logic::PacMan> ConcreteFactory::createPacMan(float x, float y, float width, float height) {
         auto logicPacMan = std::make_shared<Logic::PacMan>(x, y, width, height, x, y);
 
-        pacmanView = std::make_shared<PacManView>(logicPacMan, camera);
+        sf::IntRect rect = getSpriteRect("pacman_right_open");
+        pacmanView = std::make_shared<PacManView>(logicPacMan, camera, texture, rect);
         logicPacMan->addObserver(pacmanView);
 
         return logicPacMan;
@@ -52,17 +95,12 @@ namespace Representation {
     std::shared_ptr<Logic::Ghost> ConcreteFactory::createGhost(float x, float y, float width, float height, int index) {
         auto logicGhost = std::make_shared<Logic::Ghost>(x, y, width, height, index);
 
-        // Pick Color based on Index
-        sf::Color color;
-        switch (index % 4) {
-            case 0: color = sf::Color::Red; break;
-            case 1: color = sf::Color(255, 182, 255); break; // Pink
-            case 2: color = sf::Color::Cyan; break;          // Blue
-            case 3: color = sf::Color(255, 182, 85); break;  // Orange
-        }
+        std::string name = "ghost_" + std::to_string(index % 4) + "_right";
+        sf::IntRect normalRect = getSpriteRect(name);
 
-        // Pass color to View
-        auto view = std::make_shared<GhostView>(logicGhost, camera, color);
+        sf::IntRect scaredRect = getSpriteRect("ghost_scared");
+
+        auto view = std::make_shared<GhostView>(logicGhost, camera, texture, normalRect, scaredRect);
 
         logicGhost->addObserver(view);
         ghostviews.push_back(view);
