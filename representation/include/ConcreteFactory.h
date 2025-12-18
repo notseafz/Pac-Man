@@ -29,6 +29,7 @@ namespace Representation {
     public:
         ConcreteFactory(int width, int height);
         sf::IntRect getSpriteRect(const std::string& name) const;
+        std::vector<sf::IntRect> getAnimationFrames(const std::string& baseName) const;
 
         std::shared_ptr<Logic::Wall> createWall(float x, float y, float width, float height) override;
         std::shared_ptr<Logic::PacMan> createPacMan(float x, float y, float widht, float height) override;

@@ -40,6 +40,27 @@ namespace Representation {
         spriteRects["coin"] = sf::IntRect(411, 313, 16, 16);
         spriteRects["fruit"] = sf::IntRect(601, 200, 33, 42);
 
+        //PACMAN ANIMATION FRAMES
+        // RIGHT
+        spriteRects["pacman_right_closed"] = sf::IntRect(853, 5, 33, 33);
+        spriteRects["pacman_right_half"]   = sf::IntRect(853, 55, 33, 33);
+        spriteRects["pacman_right_open"]   = sf::IntRect(853, 105, 33, 33);
+
+        // DOWN
+        spriteRects["pacman_down_closed"] = sf::IntRect(852, 155, 33, 33);
+        spriteRects["pacman_down_half"]   = sf::IntRect(852, 205, 33, 33);
+        spriteRects["pacman_down_open"]   = sf::IntRect(852, 255, 33, 33);
+
+        // LEFT
+        spriteRects["pacman_left_closed"] = sf::IntRect(853, 305, 33, 33);
+        spriteRects["pacman_left_half"]   = sf::IntRect(853, 355, 33, 33);
+        spriteRects["pacman_left_open"]   = sf::IntRect(853, 405, 33, 33);
+
+        // UP
+        spriteRects["pacman_up_closed"] = sf::IntRect(853, 454, 33, 33);
+        spriteRects["pacman_up_half"]   = sf::IntRect(853, 504, 33, 33);
+        spriteRects["pacman_up_open"]   = sf::IntRect(853, 554, 33, 33);
+
     }
 
     sf::IntRect ConcreteFactory::getSpriteRect(const std::string &name) const {
@@ -67,8 +88,12 @@ namespace Representation {
     std::shared_ptr<Logic::PacMan> ConcreteFactory::createPacMan(float x, float y, float width, float height) {
         auto logicPacMan = std::make_shared<Logic::PacMan>(x, y, width, height, x, y);
 
-        sf::IntRect rect = getSpriteRect("pacman_right_open");
-        pacmanView = std::make_shared<PacManView>(logicPacMan, camera, texture, rect);
+        auto right = getAnimationFrames("right");
+        auto left  = getAnimationFrames("left");
+        auto up    = getAnimationFrames("up");
+        auto down  = getAnimationFrames("down");
+
+        pacmanView = std::make_shared<PacManView>(logicPacMan, camera, texture, right, left, up, down);
         logicPacMan->addObserver(pacmanView);
 
         return logicPacMan;
@@ -125,6 +150,18 @@ namespace Representation {
 
         fruitSprites.push_back(shape);
         return logicFruit;
+    }
+
+    std::vector<sf::IntRect> ConcreteFactory::getAnimationFrames(const std::string& direction) const {
+        std::vector<sf::IntRect> frames;
+        std::string base = "pacman_" + direction;
+
+        frames.push_back(getSpriteRect(base + "_closed"));
+        frames.push_back(getSpriteRect(base + "_half"));
+        frames.push_back(getSpriteRect(base + "_open"));
+        frames.push_back(getSpriteRect(base + "_half"));
+
+        return frames;
     }
 
 }
