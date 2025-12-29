@@ -33,13 +33,14 @@ namespace Logic {
             y = startY;
             dirX = 1; dirY = 0;
             state = GhostState::Chase;
+            frightenedTimer = 0.0f;
             notify();
         }
 
         void setFrightened(bool frightened) {
             if (frightened) {
                 state = GhostState::Frightened;
-                frightenedTimer = 10.0f;
+                frightenedTimer = 5.0f;
                 speed = 0.2f;
 
                 dirX = -dirX;
@@ -126,6 +127,11 @@ namespace Logic {
             }
             if (moved) notify();
         }
+
+        void setSpeed(float new_speed) {
+            speed = new_speed;
+        }
+        float getSpeed() const {return speed;}
     };
 }
 #endif //PACMANGAME_GHOST_H

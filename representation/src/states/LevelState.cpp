@@ -44,7 +44,7 @@ namespace Representation {
         }
 
         if (levelCleared) {
-            stateManager.addState(std::make_unique<VictoryState>(stateManager, window), true);
+            world->nextLevel();
         }
 
         if (world->getPacMan()->gameover()) {

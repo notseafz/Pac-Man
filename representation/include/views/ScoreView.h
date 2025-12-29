@@ -11,27 +11,43 @@
 namespace Representation {
     class ScoreView : public Logic::Observer {
     private:
-        sf::Text text;
+        sf::Text scoretext;
         sf::Font font;
+        sf::Text highScoreText;
 
     public:
         ScoreView() {
             font.loadFromFile("assets/fonts/emulogic.ttf");
-            text.setFont(font);
-            text.setCharacterSize(20);
-            text.setFillColor(sf::Color::Yellow);
-            text.setPosition(10.f, 565.f);
-            text.setString("Score: 0");
+
+            //Current Score
+            scoretext.setFont(font);
+            scoretext.setCharacterSize(20);
+            scoretext.setFillColor(sf::Color::White);
+            scoretext.setPosition(10.f, 565.f);
+
+            // High Score
+            highScoreText.setFont(font);
+            highScoreText.setCharacterSize(20);
+            highScoreText.setFillColor(sf::Color::White);
+            highScoreText.setPosition(250.f, 10.f);
+
+            update();
         }
 
         void update() override {
             int score = Logic::Score::getInstance().getScore();
-            text.setString("Score: " + std::to_string(score));
+            int high = Logic::Score::getInstance().getHighScore();
+
+            scoretext.setString("SCORE: " + std::to_string(score));
+            highScoreText.setString("HIGH:  " + std::to_string(high));
         }
 
         void draw(sf::RenderWindow& window) {
-            window.draw(text);
+            window.draw(scoretext);
+            window.draw(highScoreText);
         }
+
+        virtual ~ScoreView() = default;
 
     };
 }

@@ -29,6 +29,10 @@ namespace Logic {
             isCollected = true;
             notify();
         }
+
+        void reset() {
+            isCollected = false;
+        }
     };
 }
 

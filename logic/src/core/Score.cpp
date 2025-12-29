@@ -11,6 +11,10 @@ namespace Logic {
 
     void Score::addScore(int points) {
         current += points;
+        if (current > highscore) {
+            highscore = current;
+            HighScore::save(highscore);
+        }
         notify();
     }
 
@@ -20,6 +24,11 @@ namespace Logic {
 
     void Score::resetScore() {
         current = 0;
+        highscore = HighScore::load();
         notify();
+    }
+
+    int Score::getHighScore() {
+        return highscore;
     }
 }

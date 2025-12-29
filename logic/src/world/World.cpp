@@ -171,4 +171,25 @@ namespace Logic {
 
 
     }
+
+    void World::nextLevel() {
+        std::cout << "Level " << currentLevel << " Complete!" << std::endl;
+
+        currentLevel++;
+        float speedMultiplier = 1.0f + (currentLevel * 0.1f);
+        pacman->resetPostition();
+
+        std::cout << "Resetting " << ghosts.size() << " ghosts." << std::endl;
+        for (auto& ghost : ghosts) {
+            ghost->resetPosition();
+            ghost->setSpeed(0.3f * speedMultiplier);
+        }
+
+        for (auto& coin : coins) {
+            coin->reset();
+        }
+        for (auto& fruit : fruits) {
+            fruit->reset();
+        }
+    }
 }
