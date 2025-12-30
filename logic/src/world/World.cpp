@@ -104,6 +104,8 @@ namespace Logic {
             pacDirY = pacman->getDirY();
         }
 
+        bool reset = false;
+
         for (auto& ghost : ghosts) {
             ghost->update(dt, walls, targetX, targetY, pacDirX, pacDirY);
 
@@ -119,20 +121,21 @@ namespace Logic {
                     }
                     else {
                         pacman->die();
-                        if (!pacman->gameover()) {
-                            pacman->resetPostition();
-                            for (auto& ghost : ghosts) {
-                                ghost->resetPosition();
-                            }
-
-                    }
-
-
+                        reset = true;
+                        break;
                     }
                 }
             }
 
         }
+
+        if (reset && !pacman->gameover()) {
+            pacman->resetPostition();
+            for (auto& g : ghosts) {
+                g->resetPosition();
+            }
+        }
+
         float pacmanX = pacman->getX();
         float pacmanY = pacman->getY();
 
@@ -176,18 +179,27 @@ namespace Logic {
         std::cout << "Level " << currentLevel << " Complete!" << std::endl;
 
         currentLevel++;
+        // Increase difficulty (Ghosts get faster)
         float speedMultiplier = 1.0f + (currentLevel * 0.1f);
+
+        // 1. Reset Pac-Man
         pacman->resetPostition();
 
+        // 2. Reset Ghosts
         std::cout << "Resetting " << ghosts.size() << " ghosts." << std::endl;
         for (auto& ghost : ghosts) {
             ghost->resetPosition();
+
+            // Update Speed
             ghost->setSpeed(0.3f * speedMultiplier);
         }
 
+        // 3. Reset Coins
         for (auto& coin : coins) {
             coin->reset();
         }
+
+        // 4. Reset Fruits
         for (auto& fruit : fruits) {
             fruit->reset();
         }

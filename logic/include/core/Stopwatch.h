@@ -21,6 +21,11 @@ namespace Logic {
 
         void tick();
         float getDeltaTime() const;
+
+        void reset() {
+            lastTime = std::chrono::high_resolution_clock::now();
+            deltaTime = 0.0f;
+        }
     };
 }
 #endif //PACMANGAME_STOPWATCH_H

@@ -14,6 +14,7 @@ namespace Representation {
         scoreView = std::make_shared<ScoreView>();
         Logic::Score::getInstance().addObserver(scoreView);
         Logic::Score::getInstance().resetScore();
+        Logic::Stopwatch::getInstance().reset();
     }
 
     void LevelState::handleInput() {
