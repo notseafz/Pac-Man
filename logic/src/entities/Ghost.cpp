@@ -2,12 +2,11 @@
 #include <cmath>
 #include <cstdlib>
 #include <algorithm>
-
 namespace Logic {
     Ghost::Ghost(float px, float py, float tw, float th, float delay)
             : DynamicEntity(px, py, tw, th), startX(px), startY(py),
-              state(GhostState::Chase), frightenedTimer(0.0f), activeTimer(0.0f),
-              spawnDelay(delay), isActive(false)
+              state(GhostState::Chase), frightenedTimer(0.0f),
+              activeTimer(0.0f), spawnDelay(delay), isActive(false), hasLeftBox(false), justExited(false)
     {
         dirX = 1; dirY = 0;
         speed = 0.3f;
@@ -24,6 +23,9 @@ namespace Logic {
         state = GhostState::Chase;
         isActive = false;
         activeTimer = 0.0f;
+        hasLeftBox = false;
+        justExited = false;
+
         snapToGrid();
         notify();
     }
@@ -50,14 +52,69 @@ namespace Logic {
         speed = s;
     }
 
+    bool Ghost::handleExitLogic(float dt) {
+        // spawn timer
+        if (!isActive) {
+            activeTimer += dt;
+            if (activeTimer >= spawnDelay) {
+                isActive = true;
+            } else {
+                return true; //
+            }
+        }
+
+        if (hasLeftBox) return false;
+
+        float moveStep = speed * dt;
+        float exitY = startY + (tileH * 2.0f);
+        float exitX = 0.0f;
+
+        if (getTypeIndex() == 0 || getTypeIndex() == 1) {  // red or pink
+            exitX = -tileW * 0.5f;
+        } else {  // Blue or Orange
+            exitX = tileW * 0.5f;
+        }
+
+        if (std::abs(x - exitX) > moveStep) {
+            if (x > exitX) x -= moveStep; // slide Left
+            else           x += moveStep; // slide Right
+
+            dirX = (x > exitX) ? -1 : 1;
+            dirY = 0;
+        }
+        else {
+            x = exitX;
+
+            if (y < exitY) {
+                y += moveStep;
+                dirX = 0;
+                dirY = 1;
+            }
+
+            if (y >= exitY) {
+                y = exitY;
+                hasLeftBox = true;
+                justExited = true;
+
+                if (getTypeIndex() == 0 || getTypeIndex() == 1) dirX = -1;
+                else dirX = 1;
+
+                dirY = 0;
+                snapToGrid();
+
+                notify();
+                return false;
+            }
+        }
+
+        notify();
+        return true;
+    }
+
     void Ghost::update(float dt, const std::vector<std::shared_ptr<Wall>>& walls,
                        float targetX, float targetY, int pacDirX, int pacDirY)
     {
-        if (!isActive) {
-            activeTimer += dt;
-            if (activeTimer >= spawnDelay) isActive = true;
-            else return;
-        }
+        if (handleExitLogic(dt)) return;
 
         if (state == GhostState::Frightened) {
             frightenedTimer -= dt;
@@ -91,6 +148,8 @@ namespace Logic {
 
             for (auto& d : dirs) {
                 if (d[0] == -dirX && d[1] == -dirY && moved) continue;
+                if (justExited && d[1] == -1) continue;
+
                 if (!willCollide(x + d[0]*tileW, y + d[1]*tileH, walls)) {
                     float dist = getDistance(x + d[0]*tileW, y + d[1]*tileH, destX, destY);
                     options.push_back({d[0], d[1], dist});
@@ -109,6 +168,9 @@ namespace Logic {
                     snapToGrid();
                     dirX = ties[r].dx;
                     dirY = ties[r].dy;
+
+
+                    if (justExited) justExited = false;
                 }
             } else {
                 dirX = -dirX; dirY = -dirY;
@@ -117,12 +179,9 @@ namespace Logic {
         if (moved) notify();
     }
 
-
     // RED GHOST
     RedGhost::RedGhost(float px, float py, float tw, float th) : Ghost(px, py, tw, th, 0.0f) {}
-
     int RedGhost::getTypeIndex() const { return 0; }
-
     void RedGhost::calculateChaseTarget(float& destX, float& destY, float tX, float tY, int, int) {
         destX = tX;
         destY = tY;
@@ -131,9 +190,7 @@ namespace Logic {
 
     // PINK GHOST
     PinkGhost::PinkGhost(float px, float py, float tw, float th) : Ghost(px, py, tw, th, 0.0f) {}
-
     int PinkGhost::getTypeIndex() const { return 1; }
-
     void PinkGhost::calculateChaseTarget(float& destX, float& destY, float tX, float tY, int pdX, int pdY) {
         destX = tX + pdX * (tileW * 4.0f);
         destY = tY + pdY * (tileH * 4.0f);
@@ -142,9 +199,7 @@ namespace Logic {
 
     // BLUE GHOST
     BlueGhost::BlueGhost(float px, float py, float tw, float th) : Ghost(px, py, tw, th, 5.0f) {}
-
     int BlueGhost::getTypeIndex() const { return 2; }
-
     void BlueGhost::calculateChaseTarget(float& destX, float& destY, float tX, float tY, int pdX, int pdY) {
         destX = tX + pdX * (tileW * 4.0f);
         destY = tY + pdY * (tileH * 4.0f);
@@ -153,7 +208,6 @@ namespace Logic {
 
     // ORANGE GHOST
     OrangeGhost::OrangeGhost(float px, float py, float tw, float th) : Ghost(px, py, tw, th, 10.0f) {}
-
     int OrangeGhost::getTypeIndex() const { return 3; }
 
     void OrangeGhost::calculateChaseTarget(float& destX, float& destY, float, float, int, int) {
@@ -163,11 +217,9 @@ namespace Logic {
     void OrangeGhost::update(float dt, const std::vector<std::shared_ptr<Wall>>& walls,
                              float targetX, float targetY, int pacDirX, int pacDirY)
     {
-        if (!isActive) {
-            activeTimer += dt;
-            if (activeTimer >= spawnDelay) isActive = true;
-            else return;
-        }
+        // check exit logic first
+        if (handleExitLogic(dt)) return;
+
         if (state == GhostState::Frightened) {
             frightenedTimer -= dt;
             if (frightenedTimer <= 0) setFrightened(false);
@@ -178,6 +230,7 @@ namespace Logic {
             return;
         }
 
+        // random Movement
         bool moved = tryMove(dt, walls);
         float tolerance = speed * dt * 1.5f;
 
