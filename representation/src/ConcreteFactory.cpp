@@ -118,17 +118,32 @@ namespace Representation {
     }
 
     std::shared_ptr<Logic::Ghost> ConcreteFactory::createGhost(float x, float y, float width, float height, int index) {
-        auto logicGhost = std::make_shared<Logic::Ghost>(x, y, width, height, index);
+        std::shared_ptr<Logic::Ghost> logicGhost;
+
+        // Create the appropriate ghost subclass
+        switch(index % 4) {
+            case 0:
+                logicGhost = std::make_shared<Logic::RedGhost>(x, y, width, height);
+                break;
+            case 1:
+                logicGhost = std::make_shared<Logic::PinkGhost>(x, y, width, height);
+                break;
+            case 2:
+                logicGhost = std::make_shared<Logic::BlueGhost>(x, y, width, height);
+                break;
+            case 3:
+                logicGhost = std::make_shared<Logic::OrangeGhost>(x, y, width, height);
+                break;
+        }
 
         std::string name = "ghost_" + std::to_string(index % 4) + "_right";
         sf::IntRect normalRect = getSpriteRect(name);
-
         sf::IntRect scaredRect = getSpriteRect("ghost_scared");
 
         auto view = std::make_shared<GhostView>(logicGhost, camera, texture, normalRect, scaredRect);
-
         logicGhost->addObserver(view);
         ghostviews.push_back(view);
+
         return logicGhost;
     }
 
