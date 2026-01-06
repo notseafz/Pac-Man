@@ -52,7 +52,7 @@ namespace Logic {
         speed = s;
     }
 
-    bool Ghost::handleExitLogic(float dt) {
+    bool Ghost::handleExitLogic(float dt, float pacmanX) {
         // spawn timer
         if (!isActive) {
             activeTimer += dt;
@@ -96,7 +96,15 @@ namespace Logic {
                 hasLeftBox = true;
                 justExited = true;
 
-                if (getTypeIndex() == 0 || getTypeIndex() == 1) dirX = -1;
+                if (getTypeIndex() == 0 || getTypeIndex() == 1) {
+                    if (pacmanX < x) {
+                        dirX = -1;
+                    }
+                    else {
+                        dirX = 1;
+                    }
+                }
+
                 else dirX = 1;
 
                 dirY = 0;
@@ -114,7 +122,7 @@ namespace Logic {
     void Ghost::update(float dt, const std::vector<std::shared_ptr<Wall>>& walls,
                        float targetX, float targetY, int pacDirX, int pacDirY)
     {
-        if (handleExitLogic(dt)) return;
+        if (handleExitLogic(dt, targetX)) return;
 
         if (state == GhostState::Frightened) {
             frightenedTimer -= dt;
@@ -218,7 +226,7 @@ namespace Logic {
                              float targetX, float targetY, int pacDirX, int pacDirY)
     {
         // check exit logic first
-        if (handleExitLogic(dt)) return;
+        if (handleExitLogic(dt, targetX)) return;
 
         if (state == GhostState::Frightened) {
             frightenedTimer -= dt;

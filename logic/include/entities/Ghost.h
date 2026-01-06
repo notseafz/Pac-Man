@@ -26,7 +26,7 @@ namespace Logic {
                                           float targetX, float targetY,
                                           int pacDirX, int pacDirY) = 0;
 
-        bool handleExitLogic(float dt);
+        bool handleExitLogic(float dt, float pacmanX);
 
     public:
         Ghost(float px, float py, float tw, float th, float delay);
