@@ -19,6 +19,7 @@ private:
     std::unique_ptr<Logic::World> world;
     std::shared_ptr<ScoreView> scoreView;
     std::shared_ptr<LivesView> livesView;
+    bool levelJustCleared = false;
 
 public:
     LevelState(StateManager& sm, sf::RenderWindow& win);
@@ -26,6 +27,7 @@ public:
     void handleInput() override;
     void update() override;
     void draw() override;
+    void resume() override;
 };
 } // namespace Representation
 #endif // PACMANGAME_LEVELSTATE_H

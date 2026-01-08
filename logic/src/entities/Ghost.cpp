@@ -20,7 +20,7 @@ void Ghost::resetPosition() {
     dirY = 0;
     state = GhostState::Chase;
     isActive = false;
-    //        activeTimer = 0.0f;
+    activeTimer = 0.0f;
     hasLeftBox = false;
     justExited = false;
 

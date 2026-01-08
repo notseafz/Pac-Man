@@ -43,6 +43,10 @@ void LevelState::handleInput() {
 }
 
 void LevelState::update() {
+    if (levelJustCleared) {
+        return;
+    }
+
     world->update();
     bool levelCleared = true;
     for (const auto& coin : world->getCoins()) {
@@ -53,7 +57,7 @@ void LevelState::update() {
     }
 
     if (levelCleared) {
-        world->nextLevel();
+        levelJustCleared = true;
 
         stateManager.addState(std::make_unique<VictoryState>(stateManager, window, world->getLevel() - 1), false);
     }
@@ -101,6 +105,12 @@ void LevelState::draw() {
         if (i < spriteFruits.size() && !logicFruits[i]->getIsCollected()) {
             window.draw(*spriteFruits[i]);
         }
+    }
+}
+void LevelState::resume() {
+    if (levelJustCleared) {
+        levelJustCleared = false;
+        world->nextLevel();
     }
 }
 
