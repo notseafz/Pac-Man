@@ -15,10 +15,9 @@ Score::Score() { HighScore::loadHighest(); }
 void Score::addScore(int points) {
     current += points;
 
-    // If we beat the high score, update it immediately
     if (current > highScore) {
         highScore = current;
-        HighScore::save(highScore); // <--- SAVE TO FILE
+        HighScore::save(highScore);
     }
 
     notify();
@@ -36,7 +35,7 @@ void Score::resetScore() {
 void Score::save() { HighScore::save(current); }
 
 void Score::addCoinScore() {
-    int points = 10; // Base value
+    int points = 10;
 
     if (timeSinceLastCoin < 0.5f)
         points += 40;

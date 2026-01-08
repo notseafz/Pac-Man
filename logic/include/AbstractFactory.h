@@ -11,9 +11,15 @@ class Coin;
 class Ghost;
 class Fruit;
 
+/**
+     * @brief Abstract Factory interface for creating game entities.
+     * Allows the Logic layer to create objects without depending on the Representation layer.
+ */
+
 class AbstractFactory {
 public:
     virtual ~AbstractFactory() = default;
+    // factory methods to be implemented by representation
     virtual std::shared_ptr<Wall> createWall(float x, float y, float width, float height) = 0;
     virtual std::shared_ptr<PacMan> createPacMan(float x, float y, float width, float height) = 0;
     virtual std::shared_ptr<Coin> createCoin(float x, float y) = 0;

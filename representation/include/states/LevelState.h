@@ -6,6 +6,7 @@
 #include "State.h"
 #include "StateManager.h"
 #include "views/ScoreView.h"
+#include "views/LivesView.h"
 #include "world/World.h"
 #include <memory>
 
@@ -17,6 +18,7 @@ private:
     std::shared_ptr<ConcreteFactory> factory;
     std::unique_ptr<Logic::World> world;
     std::shared_ptr<ScoreView> scoreView;
+    std::shared_ptr<LivesView> livesView;
 
 public:
     LevelState(StateManager& sm, sf::RenderWindow& win);

@@ -7,6 +7,11 @@
 #include <stack>
 
 namespace Representation {
+/**
+     * @brief Context class for the State Pattern.
+     *
+     * Manages the stack of active states and handles transitions between them.
+ */
 class StateManager {
 private:
     std::stack<std::unique_ptr<State>> stateStack;

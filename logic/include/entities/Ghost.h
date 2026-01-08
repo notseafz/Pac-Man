@@ -6,7 +6,10 @@
 
 namespace Logic {
 enum class GhostState { Chase, Frightened };
-
+/**
+     * @brief Represents an enemy entity with pathfinding AI.
+     * Inherits from DynamicEntity to share physics and grid-snapping logic.
+ */
 class Ghost : public DynamicEntity {
 protected:
     float startX, startY;
@@ -19,11 +22,19 @@ protected:
     bool hasLeftBox;
     bool justExited;
 
+    /// Calculates Manhattan distance between two points.
     float getDistance(float x1, float y1, float x2, float y2) const;
 
+    /**
+         * @brief Calculates the specific target tile based on the Ghost's personality.
+         * Pure virtual function implemented by Red, Pink, Blue, and Orange subclasses.
+     */
     virtual void calculateChaseTarget(float& destX, float& destY, float targetX, float targetY, int pacDirX,
                                       int pacDirY) = 0;
-
+    /**
+         * @brief Overrides AI to force the ghost out of the spawn box.
+         * @return True if the ghost is currently exiting (physics should be skipped).
+     */
     bool handleExitLogic(float dt, float pacmanX);
 
 public:
@@ -32,12 +43,17 @@ public:
 
     virtual int getTypeIndex() const = 0;
 
+    /// Resets position, state, and timers
     void resetPosition();
     void setFrightened(bool frightened);
     bool isFrightened() const;
     void setSpeed(float s);
     void setSpawnDelay(float d);
 
+    /**
+         * @brief Updates the ghost's state, position, and AI decisions.
+         * Handles the spawn timer, fear mode, and pathfinding to the target.
+     */
     virtual void update(float dt, const std::vector<std::shared_ptr<Wall>>& walls, float targetX, float targetY,
                         int pacDirX, int pacDirY);
 };
@@ -48,6 +64,7 @@ public:
     int getTypeIndex() const override;
 
 protected:
+    /// Targets Pac-Man's exact position
     void calculateChaseTarget(float& destX, float& destY, float tX, float tY, int, int) override;
 };
 
@@ -57,6 +74,7 @@ public:
     int getTypeIndex() const override;
 
 protected:
+    /// Targets 4 tiles in front of Pac-Man
     void calculateChaseTarget(float& destX, float& destY, float tX, float tY, int pdX, int pdY) override;
 };
 
@@ -66,6 +84,7 @@ public:
     int getTypeIndex() const override;
 
 protected:
+    /// Targets 4 tiles in front of Pac-Man
     void calculateChaseTarget(float& destX, float& destY, float tX, float tY, int pdX, int pdY) override;
 };
 
@@ -74,6 +93,7 @@ public:
     OrangeGhost(float px, float py, float tw, float th);
     int getTypeIndex() const override;
 
+    /// Overrides update to implement random movement behavior.
     void update(float dt, const std::vector<std::shared_ptr<Wall>>& walls, float targetX, float targetY, int pacDirX,
                 int pacDirY) override;
 

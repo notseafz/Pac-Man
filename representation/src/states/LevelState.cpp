@@ -14,6 +14,11 @@ void LevelState::init() {
     Logic::Score::getInstance().addObserver(scoreView);
     Logic::Score::getInstance().resetScore();
     Logic::Stopwatch::getInstance().reset();
+
+    if (auto pac = world->getPacMan()) {
+        livesView = std::make_shared<LivesView>(pac);
+        pac->addObserver(livesView);
+    }
 }
 
 void LevelState::handleInput() {
@@ -81,6 +86,10 @@ void LevelState::draw() {
 
     if (scoreView) {
         scoreView->draw(window);
+    }
+
+    if (livesView) {
+        livesView->draw(window);
     }
 
     const auto& logicFruits = world->getFruits();

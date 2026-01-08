@@ -5,6 +5,11 @@
 #include <chrono>
 
 namespace Logic {
+/**
+     * @brief Singleton class for time management.
+     *
+     * Calculates Delta Time (dt) to ensure frame-rate independent movement.
+ */
 class Stopwatch {
 private:
     static Stopwatch* instance;

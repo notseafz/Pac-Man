@@ -9,6 +9,11 @@
 #include <iostream>
 
 namespace Representation {
+/**
+     * @brief UI component for displaying the score.
+     *
+     * Observes the Score singleton to update text dynamically.
+ */
 class ScoreView : public Logic::Observer {
 private:
     sf::Text scoretext;
@@ -22,21 +27,16 @@ public:
         // Current Score
         scoretext.setFont(font);
         scoretext.setCharacterSize(20);
-        scoretext.setFillColor(sf::Color::White);
+        scoretext.setFillColor(sf::Color::Yellow);
         scoretext.setPosition(10.f, 565.f);
 
-        // High Score
-        highScoreText.setFont(font);
-        highScoreText.setCharacterSize(20);
-        highScoreText.setFillColor(sf::Color::White);
-        highScoreText.setPosition(250.f, 10.f);
-
         update();
+
     }
 
     void update() override {
         int score = Logic::Score::getInstance().getScore();
-        scoretext.setString("SCORE: " + std::to_string(score));
+        scoretext.setString("SCORE:" + std::to_string(score));
     }
 
     void draw(sf::RenderWindow& window) { window.draw(scoretext); }

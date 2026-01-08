@@ -13,6 +13,12 @@
 #include <vector>
 
 namespace Representation {
+/**
+     * @brief Concrete implementation of AbstractFactory using SFML.
+     *
+     * Creates Logic entities paired with their corresponding SFML Views.
+     * Manages assets (Textures, Sprites) and coordinates via the Camera.
+ */
 class ConcreteFactory : public Logic::AbstractFactory {
 private:
     std::vector<std::shared_ptr<sf::RectangleShape>> walls;

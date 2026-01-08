@@ -4,6 +4,12 @@
 #include "Subject.h"
 
 namespace Logic {
+/**
+     * @brief Base class for all game objects.
+     *
+     * Defines the basic interface for position (x, y) and inherits from Subject
+     * to allow Views to observe movement.
+ */
 class EntityModel : public Subject {
 public:
     virtual ~EntityModel() = default;

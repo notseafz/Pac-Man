@@ -175,18 +175,14 @@ void World::nextLevel() {
     std::cout << "Level " << currentLevel << " Complete!" << std::endl;
 
     currentLevel++;
-    // Increase difficulty (Ghosts get faster)
     float speedMultiplier = 1.0f + (currentLevel * 0.1f);
 
-    // 1. Reset Pac-Man
     pacman->resetPostition();
 
-    // 2. Reset Ghosts
     std::cout << "Resetting " << ghosts.size() << " ghosts." << std::endl;
     for (auto& ghost : ghosts) {
         ghost->resetPosition();
 
-        // Update Speed
         ghost->setSpeed(0.3f * speedMultiplier);
 
         int typeIdx = ghost->getTypeIndex();
@@ -203,12 +199,10 @@ void World::nextLevel() {
         ghost->setSpawnDelay(newDelay);
     }
 
-    // 3. Reset Coins
     for (auto& coin : coins) {
         coin->reset();
     }
 
-    // 4. Reset Fruits
     for (auto& fruit : fruits) {
         fruit->reset();
     }

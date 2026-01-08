@@ -6,6 +6,11 @@
 #include <SFML/Graphics.hpp>
 
 namespace Representation {
+/**
+     * @brief Utility for coordinate conversion.
+     *
+     * Maps normalized Logic coordinates [-1, 1] to Screen pixels [0, 800].
+ */
 class Camera {
 private:
     int screenWidth;

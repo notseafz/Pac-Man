@@ -6,6 +6,10 @@
 #include "Subject.h"
 
 namespace Logic {
+/**
+     * @brief Singleton class to manage the player's score.
+     * Handles current score, high score persistence, and combo logic.
+ */
 class Score : public Subject {
 private:
     static Score* instance;
@@ -17,6 +21,7 @@ private:
 
 public:
     Score();
+    // returns the global instance of the Score system
     static Score& getInstance();
 
     Score(const Score&) = delete;
@@ -29,7 +34,6 @@ public:
     int getScore() const;
     void resetScore();
 
-    int getHighScore();
 };
 } // namespace Logic
 #endif // PACMANGAME_SCORE_H

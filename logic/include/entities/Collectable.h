@@ -7,6 +7,11 @@
 #include "EntityModel.h"
 
 namespace Logic {
+/**
+     * @brief Represents a pick-up item.
+     *
+     * Stores score value and collection state.
+ */
 class Collectable : public EntityModel {
 protected:
     float x, y;

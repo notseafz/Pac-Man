@@ -7,6 +7,11 @@
 #include "Collectable.h"
 
 namespace Logic {
+/**
+     * @brief Represents a pick-up item.
+     *
+     * Stores score value and collection state.
+ */
 class Fruit : public Collectable {
 public:
     Fruit(float px, float py) : Collectable(px, py, 50) {
