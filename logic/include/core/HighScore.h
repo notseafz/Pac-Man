@@ -3,11 +3,11 @@
 #ifndef PACMANGAME_HIGHSCORE_H
 #define PACMANGAME_HIGHSCORE_H
 
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 namespace Logic {
 class HighScore {
