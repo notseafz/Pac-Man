@@ -7,10 +7,10 @@
 #include "Collectable.h"
 
 namespace Logic {
-    class Coin : public Collectable {
-    public:
-        Coin(float px, float py) : Collectable(px, py, 2) {}
-    };
-}
+class Coin : public Collectable {
+public:
+    Coin(float px, float py) : Collectable(px, py, 2) {}
+};
+} // namespace Logic
 
-#endif //PACMANGAME_COIN_H
+#endif // PACMANGAME_COIN_H

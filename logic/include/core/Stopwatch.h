@@ -5,27 +5,27 @@
 #include <chrono>
 
 namespace Logic {
-    class Stopwatch {
-    private:
-        static Stopwatch* instance;
-        std::chrono::high_resolution_clock::time_point lastTime;
-        float deltaTime;
+class Stopwatch {
+private:
+    static Stopwatch* instance;
+    std::chrono::high_resolution_clock::time_point lastTime;
+    float deltaTime;
 
-        Stopwatch();
+    Stopwatch();
 
-    public:
-        static Stopwatch& getInstance();
+public:
+    static Stopwatch& getInstance();
 
-        Stopwatch(const Stopwatch&) = delete;
-        void operator=(const Stopwatch&) = delete;
+    Stopwatch(const Stopwatch&) = delete;
+    void operator=(const Stopwatch&) = delete;
 
-        void tick();
-        float getDeltaTime() const;
+    void tick();
+    float getDeltaTime() const;
 
-        void reset() {
-            lastTime = std::chrono::high_resolution_clock::now();
-            deltaTime = 0.0f;
-        }
-    };
-}
-#endif //PACMANGAME_STOPWATCH_H
+    void reset() {
+        lastTime = std::chrono::high_resolution_clock::now();
+        deltaTime = 0.0f;
+    }
+};
+} // namespace Logic
+#endif // PACMANGAME_STOPWATCH_H

@@ -5,17 +5,17 @@
 #include <SFML/Graphics.hpp>
 
 namespace Representation {
-    class State {
-    public:
-        virtual ~State() = default;
+class State {
+public:
+    virtual ~State() = default;
 
-        virtual void init() = 0;
-        virtual void handleInput() = 0;
-        virtual void update() = 0;
-        virtual void draw() = 0;
+    virtual void init() = 0;
+    virtual void handleInput() = 0;
+    virtual void update() = 0;
+    virtual void draw() = 0;
 
-        virtual void pause() {}
-        virtual void resume() {}
-    };
-}
-#endif //PACMANGAME_STATE_H
+    virtual void pause() {}
+    virtual void resume() {}
+};
+} // namespace Representation
+#endif // PACMANGAME_STATE_H
