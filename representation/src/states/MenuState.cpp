@@ -11,7 +11,6 @@ void MenuState::init() {
 
     float windowCenter = window.getSize().x / 2.0f;
 
-    // 1. TITLE ("PAC-MAN")
     title.setFont(font);
     title.setString("PAC-MAN");
     title.setCharacterSize(40);
@@ -22,7 +21,6 @@ void MenuState::init() {
     // Changed Y from 100 to 120
     title.setPosition(windowCenter, 120.0f);
 
-    // 2. INSTRUCTION ("PRESS ENTER TO PLAY")
     instruction.setFont(font);
     instruction.setString("PRESS ENTER TO PLAY");
     instruction.setCharacterSize(15);
@@ -30,14 +28,11 @@ void MenuState::init() {
 
     sf::FloatRect instRect = instruction.getLocalBounds();
     instruction.setOrigin(instRect.left + instRect.width / 2.0f, instRect.top + instRect.height / 2.0f);
-    // Changed Y from 200 to 180 (Closer to title)
     instruction.setPosition(windowCenter, 180.0f);
 
-    // 3. HIGH SCORES
     auto scores = Logic::HighScore::load();
     scorelines.clear();
 
-    // Changed Start Y from 300 to 250 (Closer to instruction)
     float startY = 250.0f;
 
     for (size_t i = 0; i < scores.size(); i++) {
@@ -51,7 +46,6 @@ void MenuState::init() {
         sf::FloatRect scoreRect = t.getLocalBounds();
         t.setOrigin(scoreRect.left + scoreRect.width / 2.0f, scoreRect.top + scoreRect.height / 2.0f);
 
-        // Reduced spacing between lines from 30 to 25
         t.setPosition(windowCenter, startY + (i * 25));
         scorelines.push_back(t);
     }
@@ -63,7 +57,7 @@ void MenuState::handleInput() {
         if (event.type == sf::Event::Closed)
             window.close();
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
-            // Switch to Level State (Replace Menu)
+            // Switch to Level State
             stateManager.addState(std::make_unique<LevelState>(stateManager, window), true);
         }
     }

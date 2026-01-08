@@ -8,9 +8,9 @@
 
 namespace Logic {
 /**
-     * @brief Represents a pick-up item.
-     *
-     * Stores score value and collection state.
+ * @brief Represents a pick-up item.
+ *
+ * Stores score value and collection state.
  */
 class Coin : public Collectable {
 public:

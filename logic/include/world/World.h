@@ -7,8 +7,8 @@
 
 namespace Logic {
 /**
-     * @brief The main Controller for the game logic.
-     * Manages the map, entities, collision detection, and level progression.
+ * @brief The main Controller for the game logic.
+ * Manages the map, entities, collision detection, and level progression.
  */
 class World {
 private:
@@ -30,8 +30,8 @@ public:
     const std::vector<std::shared_ptr<Fruit>>& getFruits() const { return fruits; }
 
     /**
-         * @brief Advances the game simulation by one tick.
-         * Updates movement, checks collisions, and manages game rules.
+     * @brief Advances the game simulation by one tick.
+     * Updates movement, checks collisions, and manages game rules.
      */
     void update();
 

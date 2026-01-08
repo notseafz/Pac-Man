@@ -5,8 +5,8 @@
 #include "ConcreteFactory.h"
 #include "State.h"
 #include "StateManager.h"
-#include "views/ScoreView.h"
 #include "views/LivesView.h"
+#include "views/ScoreView.h"
 #include "world/World.h"
 #include <memory>
 

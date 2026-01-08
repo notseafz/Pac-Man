@@ -11,10 +11,12 @@ private:
     StateManager& stateManager;
     sf::RenderWindow& window;
     sf::Font font;
-    sf::Text text;
+    sf::Text levelText;
+    sf::Text pressText;
+    int levelIndex = 1;
 
 public:
-    VictoryState(StateManager& sm, sf::RenderWindow& win);
+    VictoryState(StateManager& sm, sf::RenderWindow& win, int i);
     void init() override;
     void handleInput() override;
     void update() override {}

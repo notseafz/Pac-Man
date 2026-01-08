@@ -7,9 +7,9 @@
 
 namespace Representation {
 /**
-     * @brief Base class for visual representation.
-     *
-     * Inherits from Observer to automatically update visuals when Logic changes.
+ * @brief Base class for visual representation.
+ *
+ * Inherits from Observer to automatically update visuals when Logic changes.
  */
 class EntityView : public Logic::Observer {
     virtual void draw(sf::RenderWindow& window) = 0;

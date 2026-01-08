@@ -7,8 +7,8 @@
 namespace Logic {
 enum class GhostState { Chase, Frightened };
 /**
-     * @brief Represents an enemy entity with pathfinding AI.
-     * Inherits from DynamicEntity to share physics and grid-snapping logic.
+ * @brief Represents an enemy entity with pathfinding AI.
+ * Inherits from DynamicEntity to share physics and grid-snapping logic.
  */
 class Ghost : public DynamicEntity {
 protected:
@@ -26,14 +26,14 @@ protected:
     float getDistance(float x1, float y1, float x2, float y2) const;
 
     /**
-         * @brief Calculates the specific target tile based on the Ghost's personality.
-         * Pure virtual function implemented by Red, Pink, Blue, and Orange subclasses.
+     * @brief Calculates the specific target tile based on the Ghost's personality.
+     * Pure virtual function implemented by Red, Pink, Blue, and Orange subclasses.
      */
     virtual void calculateChaseTarget(float& destX, float& destY, float targetX, float targetY, int pacDirX,
                                       int pacDirY) = 0;
     /**
-         * @brief Overrides AI to force the ghost out of the spawn box.
-         * @return True if the ghost is currently exiting (physics should be skipped).
+     * @brief Overrides AI to force the ghost out of the spawn box.
+     * @return True if the ghost is currently exiting (physics should be skipped).
      */
     bool handleExitLogic(float dt, float pacmanX);
 
@@ -51,8 +51,8 @@ public:
     void setSpawnDelay(float d);
 
     /**
-         * @brief Updates the ghost's state, position, and AI decisions.
-         * Handles the spawn timer, fear mode, and pathfinding to the target.
+     * @brief Updates the ghost's state, position, and AI decisions.
+     * Handles the spawn timer, fear mode, and pathfinding to the target.
      */
     virtual void update(float dt, const std::vector<std::shared_ptr<Wall>>& walls, float targetX, float targetY,
                         int pacDirX, int pacDirY);

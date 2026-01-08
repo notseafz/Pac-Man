@@ -54,6 +54,8 @@ void LevelState::update() {
 
     if (levelCleared) {
         world->nextLevel();
+
+        stateManager.addState(std::make_unique<VictoryState>(stateManager, window, world->getLevel() - 1), false);
     }
 
     if (world->getPacMan()->gameover()) {

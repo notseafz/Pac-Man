@@ -12,8 +12,8 @@ class Ghost;
 class Fruit;
 
 /**
-     * @brief Abstract Factory interface for creating game entities.
-     * Allows the Logic layer to create objects without depending on the Representation layer.
+ * @brief Abstract Factory interface for creating game entities.
+ * Allows the Logic layer to create objects without depending on the Representation layer.
  */
 
 class AbstractFactory {

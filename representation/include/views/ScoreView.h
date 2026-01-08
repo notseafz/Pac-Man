@@ -10,9 +10,9 @@
 
 namespace Representation {
 /**
-     * @brief UI component for displaying the score.
-     *
-     * Observes the Score singleton to update text dynamically.
+ * @brief UI component for displaying the score.
+ *
+ * Observes the Score singleton to update text dynamically.
  */
 class ScoreView : public Logic::Observer {
 private:
@@ -31,7 +31,6 @@ public:
         scoretext.setPosition(10.f, 565.f);
 
         update();
-
     }
 
     void update() override {

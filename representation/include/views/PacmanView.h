@@ -12,9 +12,9 @@
 
 namespace Representation {
 /**
-     * @brief Handles Pac-Man's visual representation.
-     *
-     * Manages sprite animation (mouth movement), rotation, and sound effects (Waka Waka).
+ * @brief Handles Pac-Man's visual representation.
+ *
+ * Manages sprite animation (mouth movement), rotation, and sound effects (Waka Waka).
  */
 class PacManView : public EntityView {
 private:

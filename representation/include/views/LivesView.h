@@ -8,8 +8,8 @@
 #include "EntityView.h"
 #include "entities/PacMan.h"
 #include <SFML/Graphics.hpp>
-#include <memory>
 #include <iostream>
+#include <memory>
 
 namespace Representation {
 class LivesView : public Logic::Observer {
@@ -39,10 +39,8 @@ public:
         }
     }
 
-    void draw(sf::RenderWindow& window) {
-        window.draw(text);
-    }
+    void draw(sf::RenderWindow& window) { window.draw(text); }
 };
-}
+} // namespace Representation
 
 #endif // PACMANGAME_LIVESVIEW_H

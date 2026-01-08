@@ -10,9 +10,9 @@
 
 namespace Logic {
 /**
-     * @brief Base class for moving entities (Pac-Man, Ghosts).
-     *
-     * Implements shared physics logic, collision detection, and grid alignment.
+ * @brief Base class for moving entities (Pac-Man, Ghosts).
+ *
+ * Implements shared physics logic, collision detection, and grid alignment.
  */
 class DynamicEntity : public EntityModel {
 protected:

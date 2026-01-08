@@ -9,14 +9,14 @@
 
 namespace Logic {
 /**
-     * @brief Base class for the Observer pattern.
-     * Holds a list of listeners (Views) and notifies them when data changes.
+ * @brief Base class for the Observer pattern.
+ * Holds a list of listeners (Views) and notifies them when data changes.
  */
 class Subject {
 private:
     /**
-         * @brief List of observers.
-         * Uses weak_ptr to prevent circular dependency memory leaks.
+     * @brief List of observers.
+     * Uses weak_ptr to prevent circular dependency memory leaks.
      */
     std::vector<std::weak_ptr<Observer>> observers;
 

@@ -7,8 +7,8 @@
 
 namespace Logic {
 /**
-     * @brief Singleton class to manage the player's score.
-     * Handles current score, high score persistence, and combo logic.
+ * @brief Singleton class to manage the player's score.
+ * Handles current score, high score persistence, and combo logic.
  */
 class Score : public Subject {
 private:
@@ -33,7 +33,6 @@ public:
     void save();
     int getScore() const;
     void resetScore();
-
 };
 } // namespace Logic
 #endif // PACMANGAME_SCORE_H

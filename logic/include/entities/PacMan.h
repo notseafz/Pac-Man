@@ -5,9 +5,9 @@
 
 namespace Logic {
 /**
-     * @brief Represents the player character.
-     *
-     * Handles input buffering, movement direction, lives, and death state.
+ * @brief Represents the player character.
+ *
+ * Handles input buffering, movement direction, lives, and death state.
  */
 class PacMan : public DynamicEntity {
 private:
