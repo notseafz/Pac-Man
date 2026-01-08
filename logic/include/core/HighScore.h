@@ -6,6 +6,8 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <vector>
+#include <algorithm>
 
 namespace Logic {
 class HighScore {
