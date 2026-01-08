@@ -11,26 +11,44 @@
 namespace Logic {
     class HighScore {
     public:
-        static int load() {
+        static std::vector<int> load() {
             std::ifstream file("assets/highscores.txt");
-            int score = 0;
+            std::vector<int> scores;
+            int val;
+
             if (file.is_open()) {
-                file >> score;
-                file.close();
-            } else {
-                save(0);
+                while (file >> val) {
+                    scores.push_back(val);
+                }
             }
-            return score;
+            file.close();
+
+        std::sort(scores.rbegin(), scores.rend());
+        if (scores.size() > 5) scores.resize(5);
+
+        return scores;
         }
 
         static void save(int score) {
+            auto scores = load();
+            scores.push_back(score);
+
+            std::sort(scores.rbegin(), scores.rend());
+            if (scores.size() > 5) scores.resize(5);
+
             std::ofstream file("assets/highscores.txt");
             if (file.is_open()) {
-                file << score;
+                for (int s : scores) {
+                    file << s << "\n";
+                }
                 file.close();
-            } else {
-                std::cerr << "[Error] Could not save high score!" << std::endl;
             }
+        }
+
+        static int loadHighest() {
+            auto scores = load();
+            if (scores.empty()) return 0;
+            return scores[0];
         }
     };
 }

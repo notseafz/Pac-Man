@@ -20,6 +20,7 @@ add_library(pacman_logic ${LOGIC_SOURCES}
         include/entities/Fruit.h
         include/core/HighScore.h
         src/entities/Ghost.cpp
+        include/core/Random.h
 )
 
 # Expose include folders so Representation can see World.h, EntityModel.h, etc.

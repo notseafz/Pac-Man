@@ -90,6 +90,8 @@ namespace Logic {
         Stopwatch::getInstance().tick();
         float dt = Stopwatch::getInstance().getDeltaTime();
 
+        Score::getInstance().update(dt);
+
         float targetX = 0;
         float targetY = 0;
         int pacDirX = 0;
@@ -151,7 +153,7 @@ namespace Logic {
 
             if (dx < eatDistance and dy < eatDistance) {
                 coin->collect();
-                Score::getInstance().addScore(coin->getScoreValue());
+                Score::getInstance().addCoinScore();
             }
 
         }
@@ -192,6 +194,17 @@ namespace Logic {
 
             // Update Speed
             ghost->setSpeed(0.3f * speedMultiplier);
+
+            int typeIdx = ghost->getTypeIndex();
+            float baseDelay = 0.0f;
+
+            if (typeIdx == 2) baseDelay = 5.0f;  // Blue
+            if (typeIdx == 3) baseDelay = 10.0f; // Orange
+
+            float reduction = (currentLevel - 1) * 1.0f;
+            float newDelay = std::max(0.0f, baseDelay - reduction);
+
+            ghost->setSpawnDelay(newDelay);
         }
 
         // 3. Reset Coins

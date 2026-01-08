@@ -1,6 +1,6 @@
 #include "entities/Ghost.h"
+#include "core/Random.h"
 #include <cmath>
-#include <cstdlib>
 #include <algorithm>
 namespace Logic {
     Ghost::Ghost(float px, float py, float tw, float th, float delay)
@@ -22,7 +22,7 @@ namespace Logic {
         dirX = 1; dirY = 0;
         state = GhostState::Chase;
         isActive = false;
-        activeTimer = 0.0f;
+//        activeTimer = 0.0f;
         hasLeftBox = false;
         justExited = false;
 
@@ -171,7 +171,8 @@ namespace Logic {
                 std::vector<Candidate> ties;
                 for(auto& opt : options) if (std::abs(opt.dist - best.dist) < 0.001f) ties.push_back(opt);
 
-                int r = rand() % ties.size();
+                int r = Random::getInstance().getInt(0, ties.size() - 1);
+
                 if (dirX != ties[r].dx || dirY != ties[r].dy) {
                     snapToGrid();
                     dirX = ties[r].dx;
@@ -185,6 +186,10 @@ namespace Logic {
             }
         }
         if (moved) notify();
+    }
+
+    void Ghost::setSpawnDelay(float d) {
+        spawnDelay = d;
     }
 
     // RED GHOST
@@ -252,7 +257,9 @@ namespace Logic {
             if (!willCollide(x, y-tileH, walls)) openPaths++;
 
             bool pickNew = !moved;
-            if (moved && openPaths > 2 && (rand() % 2 == 0)) pickNew = true;
+            if (moved && openPaths > 2 && (Random::getInstance().getInt(0, 1) == 0)) {
+                pickNew = true;
+            }
 
             if (pickNew) {
                 std::vector<std::pair<int,int>> valid;
@@ -262,7 +269,7 @@ namespace Logic {
                 if (!willCollide(x, y-tileH, walls) && dirY != 1) valid.push_back({0,-1});
 
                 if (!valid.empty()) {
-                    int r = rand() % valid.size();
+                    int r = Random::getInstance().getInt(0, valid.size() - 1);
                     dirX = valid[r].first;
                     dirY = valid[r].second;
                     snapToGrid();

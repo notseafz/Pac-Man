@@ -11,7 +11,9 @@ namespace Representation {
         StateManager& stateManager;
         sf::RenderWindow& window;
         sf::Font font;
-        sf::Text text;
+        sf::Text title;
+        sf::Text instruction;
+        std::vector<sf::Text> scorelines;
 
     public:
         MenuState(StateManager& sm, sf::RenderWindow& win);

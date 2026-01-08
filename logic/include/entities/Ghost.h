@@ -38,9 +38,11 @@ namespace Logic {
         void setFrightened(bool frightened);
         bool isFrightened() const;
         void setSpeed(float s);
+        void setSpawnDelay(float d);
 
         virtual void update(float dt, const std::vector<std::shared_ptr<Wall>>& walls,
                             float targetX, float targetY, int pacDirX, int pacDirY);
+
     };
 
     class RedGhost : public Ghost {

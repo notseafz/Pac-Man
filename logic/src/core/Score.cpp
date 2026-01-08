@@ -1,5 +1,6 @@
 
 #include "core/Score.h"
+#include "core/HighScore.h"
 
 namespace Logic {
     Score *Score::instance = nullptr;
@@ -8,13 +9,19 @@ namespace Logic {
         if (!instance) instance = new Score();
         return *instance;
     }
+    Score::Score() {
+        HighScore::loadHighest();
+    }
 
     void Score::addScore(int points) {
         current += points;
-        if (current > highscore) {
-            highscore = current;
-            HighScore::save(highscore);
+
+        // If we beat the high score, update it immediately
+        if (current > highScore) {
+            highScore = current;
+            HighScore::save(highScore); // <--- SAVE TO FILE
         }
+
         notify();
     }
 
@@ -24,11 +31,43 @@ namespace Logic {
 
     void Score::resetScore() {
         current = 0;
-        highscore = HighScore::load();
+        timeSinceLastCoin = 0.0f;
+        decayTimer = 0.0f;
         notify();
     }
 
-    int Score::getHighScore() {
-        return highscore;
+
+    void Score::save() {
+        HighScore::save(current);
+
     }
+
+    void Score::addCoinScore() {
+        int points = 10; // Base value
+
+        if (timeSinceLastCoin < 0.5f) points += 40;
+        else if (timeSinceLastCoin < 1.0f) points += 20;
+        else if (timeSinceLastCoin < 2.0f) points += 10;
+
+        current += points;
+        timeSinceLastCoin = 0.0f;
+        notify();
+
+    }
+
+    void Score::update(float dt) {
+        timeSinceLastCoin += dt;
+        decayTimer += dt;
+
+        if (decayTimer >= 1.0f) {
+            decayTimer = 0.0f;
+            if (current > 0) {
+                current -= 10;
+                if (current < 0) current = 0;
+                notify();
+            }
+        }
+    }
+
+
 }

@@ -1,6 +1,7 @@
 
 #include "states/GameOver.h"
 #include "states/MenuState.h"
+#include "Score.h"
 #include <iostream>
 
 namespace Representation {
@@ -8,6 +9,7 @@ namespace Representation {
             : stateManager(sm), window(win) {}
 
     void GameOver::init() {
+        Logic::Score::getInstance().save();
         if (!font.loadFromFile("assets/fonts/emulogic.ttf")) return;
         text.setFont(font);
         text.setString("GAME OVER\n\nPress ENTER to Menu");

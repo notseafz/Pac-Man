@@ -15,7 +15,7 @@ namespace Logic {
     public:
         virtual ~Subject() = default;
 
-        void addObserver(std::shared_ptr<Observer> observer) {
+        void addObserver(std::weak_ptr<Observer> observer) {
             observers.push_back(observer);
         }
 

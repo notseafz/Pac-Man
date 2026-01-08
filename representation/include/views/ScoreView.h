@@ -36,15 +36,11 @@ namespace Representation {
 
         void update() override {
             int score = Logic::Score::getInstance().getScore();
-            int high = Logic::Score::getInstance().getHighScore();
-
             scoretext.setString("SCORE: " + std::to_string(score));
-            highScoreText.setString("HIGH:  " + std::to_string(high));
         }
 
         void draw(sf::RenderWindow& window) {
             window.draw(scoretext);
-            window.draw(highScoreText);
         }
 
         virtual ~ScoreView() = default;
