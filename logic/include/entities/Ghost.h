@@ -18,6 +18,7 @@ protected:
     float frightenedTimer;
     float activeTimer;
     float spawnDelay;
+    float baseSpeed = 0.3f;
     bool isActive;
     bool hasLeftBox;
     bool justExited;

@@ -2,7 +2,8 @@
 #include "states/MenuState.h"
 
 namespace Representation {
-VictoryState::VictoryState(StateManager& sm, sf::RenderWindow& win, int i) : stateManager(sm), window(win) {}
+VictoryState::VictoryState(StateManager& sm, sf::RenderWindow& win, int i)
+    : stateManager(sm), window(win), levelIndex(i) {}
 
 void VictoryState::init() {
     if (!font.loadFromFile("assets/fonts/emulogic.ttf"))

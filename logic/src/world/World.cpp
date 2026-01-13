@@ -175,7 +175,7 @@ void World::nextLevel() {
     std::cout << "Level " << currentLevel << " Complete!" << std::endl;
 
     currentLevel++;
-    float speedMultiplier = 1.0f + (currentLevel * 0.1f);
+    float speedMultiplier = 1.0f + (currentLevel * 0.05f);
 
     pacman->resetPostition();
 
@@ -206,5 +206,6 @@ void World::nextLevel() {
     for (auto& fruit : fruits) {
         fruit->reset();
     }
+    Stopwatch::getInstance().reset();
 }
 } // namespace Logic

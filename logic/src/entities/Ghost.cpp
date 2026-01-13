@@ -19,6 +19,7 @@ void Ghost::resetPosition() {
     dirX = 1;
     dirY = 0;
     state = GhostState::Chase;
+    speed = baseSpeed;
     isActive = false;
     activeTimer = 0.0f;
     hasLeftBox = false;
@@ -39,14 +40,17 @@ void Ghost::setFrightened(bool frightened) {
         dirY = -dirY;
     } else {
         state = GhostState::Chase;
-        speed = 0.3f;
+        speed = baseSpeed;
     }
     notify();
 }
 
 bool Ghost::isFrightened() const { return state == GhostState::Frightened; }
 
-void Ghost::setSpeed(float s) { speed = s; }
+void Ghost::setSpeed(float s) {
+    speed = s;
+    baseSpeed = s;
+}
 
 bool Ghost::handleExitLogic(float dt, float pacmanX) {
     // spawn timer
